@@ -14,6 +14,7 @@
 
 * 02/04: Removed line "There is no lowered expectations for students working on their own - you will be assessed the same as the pairs"
 * 02/04: Increaseing 2.1, 2.2, 2.3, 2.4 secion worths to match marking criteria
+* 03/04: Due date extend to 22/04 (24 hours)
 
 ## 1. Background & Motivation
 
@@ -321,7 +322,7 @@ knowledge.
 
 ## 8. Submission
 
-This assignment is due *Wednesday 21st April, 19:59:59*.
+This assignment is due *Thursday 22nd April, 19:59:59*.
 
 Our systems automatically record the most recent push you make to your `master` branch. Therefore,
 to "submit" your code you simply need to make sure that your `master` branch (on the gitlab website)
