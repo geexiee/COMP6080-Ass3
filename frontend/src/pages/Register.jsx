@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import { Redirect } from 'react-router';
+import { Redirect } from 'react-router';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -13,13 +13,18 @@ const Register = () => {
       email,
       password,
       name,
-    });
-    console.log(response.data.token);
+    }).catch(e => console.log(e.message));
     if (response.status === 200) {
+      console.log(response.data.token);
       localStorage.setItem('token', response.data.token);
-    //   return <Redirect to="/" />;
+      setLoggedIn(true);
     }
   };
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  if (loggedIn) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <div>

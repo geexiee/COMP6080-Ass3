@@ -3,7 +3,8 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header.jsx';
@@ -40,6 +41,9 @@ const Home = () => {
   return (
     <div>
       <h2>Home</h2>
+      <Route exact path="/">
+        {localStorage.getItem('token') ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+      </Route>
     </div>
   );
 }
