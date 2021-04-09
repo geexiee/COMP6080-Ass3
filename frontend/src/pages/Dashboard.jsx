@@ -4,7 +4,7 @@ import Header from '../components/Header.jsx';
 const Dashboard = () => {
   return (
     <div>
-        <Header />
+      <Header />
       <h2>Dashboard</h2>
     </div>
   );

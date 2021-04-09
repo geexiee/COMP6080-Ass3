@@ -7,7 +7,6 @@ import {
   Redirect
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import Header from './components/AuthHeader.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
@@ -16,9 +15,6 @@ const App = () => {
   return (
     <Router>
       <div>
-        {/* <nav>
-          <Header />
-        </nav> */}
         <Switch>
           <Route path="/login">
             <Login />
@@ -29,6 +25,10 @@ const App = () => {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
+          {/* or something like this */}
+          {/* <Route path="/admin/quiz/:qid">
+            <Home />
+          </Route> */}
           <Route path="/">
             <Home />
           </Route>
