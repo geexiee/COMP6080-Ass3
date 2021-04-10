@@ -7,17 +7,14 @@ import {
   Redirect
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from './components/Header.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 const App = () => {
   return (
     <Router>
       <div>
-        <nav>
-          <Header />
-        </nav>
         <Switch>
           <Route path="/login">
             <Login />
@@ -28,6 +25,10 @@ const App = () => {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
+          {/* or something like this */}
+          {/* <Route path="/admin/quiz/:qid">
+            <Home />
+          </Route> */}
           <Route path="/">
             <Home />
           </Route>
@@ -44,14 +45,6 @@ const Home = () => {
       <Route exact path="/">
         {localStorage.getItem('token') ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
       </Route>
-    </div>
-  );
-}
-
-const Dashboard = () => {
-  return (
-    <div>
-      <h2>Dashboard</h2>
     </div>
   );
 }

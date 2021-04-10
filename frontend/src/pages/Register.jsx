@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import Header from '../components/AuthHeader.jsx';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -28,6 +29,7 @@ const Register = () => {
 
   return (
     <div>
+      <Header />
       <h2>Register</h2>
       Name: <input onChange={e => setName(e.target.value)} value={name} type="text" /><br />
       Email: <input onChange={e => setEmail(e.target.value)} value={email} type="email" /><br />
