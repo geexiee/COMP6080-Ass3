@@ -10,6 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import EditGame from './pages/EditGame.jsx';
+import EditQuestion from './pages/EditQuestion';
 
 const App = () => {
   return (
@@ -24,6 +26,12 @@ const App = () => {
           </Route>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/edit/:gid/:qid">
+            <EditQuestion />
+          </Route>
+          <Route path="/edit/:gid">
+            <EditGame />
           </Route>
           {/* or something like this */}
           {/* <Route path="/admin/quiz/:qid">

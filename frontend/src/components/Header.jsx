@@ -12,7 +12,8 @@ const Header = () => {
       <Navbar.Brand><Link to="/">Home</Link></Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link><Link to="/dashboard">Dashboard</Link></Nav.Link>
-        <Nav.Link>Normal colour</Nav.Link>
+        <Nav.Link><Link to="/edit/:gid">Edit Game</Link></Nav.Link>
+        <Nav.Link><Link to="/edit/:gid/:qid">Edit Question</Link></Nav.Link>
       </Nav>
       <Form inline>
         {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
