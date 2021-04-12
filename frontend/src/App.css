@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+#GameTileContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.GameTile {
+  height: auto;
+  max-height: 400px;
+  width: auto;
+  max-width: 400px;
+  margin: 10px;
+}
+
+.GameName {
+  color: grey;
+}
+
+.card-img-bottom {
+  height: auto;
+  max-height: 200px;
+  width: auto;
+  max-width: 200px;
+}
+
+.CardButton {
+  margin: 3px;
+}
