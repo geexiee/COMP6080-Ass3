@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Header from '../components/Header.jsx';
 import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 
 const Dashboard = () => {
   console.log(localStorage.getItem('token'))
