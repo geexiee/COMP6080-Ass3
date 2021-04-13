@@ -56,10 +56,10 @@ const GameTile = (props) => {
 }
 
 GameTile.propTypes = {
-  ID: PropTypes.string,
+  ID: PropTypes.number,
   name: PropTypes.string,
   owner: PropTypes.string,
-  img: PropTypes.img
+  img: PropTypes.string
 };
 
 export default GameTile;
