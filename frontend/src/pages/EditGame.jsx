@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import axios from 'axios';
 import QuestionTile from '../components/QuestionTile.jsx'
 
+// TODO: try put the thumbnail on each questiontile, style the editgame page so the tiles are ordered nicer
 const EditGame = () => {
   const params = useParams();
   const [questions, setQuestions] = React.useState([]);
@@ -57,11 +58,6 @@ const EditGame = () => {
       <p>Game ID: {params.gid}</p>
       <p>get id with /admin/quiz/{params.gid}</p>
       <Button onClick={() => setGoEditQuestion(true)}>Add new question</Button>
-      <p># put /admin/quiz/{params.gid} with new question - redirect to edit question to input info?</p>
-      <ul>
-        <li>Allows users to select the question they want to edit</li>
-        <li>Allows users to delete a particular question, or add a new question</li>
-      </ul>
       <div id="QuestionTileDiv">
         {questions.map((question) => {
           console.log(question);
@@ -73,7 +69,6 @@ const EditGame = () => {
       </div>
       <Button onClick={() => setGoEditQuestion(true)} size="sm">Edit question</Button>&nbsp;
       <Button onClick={() => setGoDeleteQuestion(true)} size="sm">Delete question</Button>
-      <p># Attach these to each question block</p>
     </div>
   );
 }
