@@ -1,26 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import { generatePath } from 'react-router';
+import axios from 'axios';
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
 
 const GameTile = (props) => {
   const { ID, name, owner, img } = props;
-  // const [quizInfo, setQuizInfo] = React.useState([]);
-  // const GetQuizInfo = async () => {
-  //   const response = await axios.get(`http://localhost:5005/admin/quiz?quizid=${ID}`, {
-  //     headers: {
-  //       Accept: 'application/json',
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`
-  //     }
-  //   }).catch(e => console.log(e.response.data.error));
-  //   if (response !== undefined && response.status === 200) {
-  //     const quizInfo = response.data.quizzes;
-  //     setQuizInfo(quizInfo);
-  //   }
-  // }
 
-  // useEffect(() => {
-  //   GetQuizInfo();
-  // }, []);
+  const [goEditGame, setGoEditGame] = React.useState(false);
+  if (goEditGame) {
+    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
+  }
+
+  const DeleteGame = async (ID) => {
+    const response = await axios.delete(`http://localhost:5005/admin/quiz/${ID}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).catch(e => console.log(e.response.data.error));
+    if (response !== undefined && response.status === 200) {
+      console.log('Game Deleted!');
+    }
+  }
+
+  const StartGame = async (ID) => {
+    const response = await axios.post(`http://localhost:5005/admin/quiz/${ID}/start`, '', {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).catch(e => console.log(e.response.data.error));
+    if (response !== undefined && response.status === 200) {
+      console.log('Game Started!');
+    }
+  }
 
   return (
     <Card border='primary' className="GameTile">
@@ -30,8 +46,9 @@ const GameTile = (props) => {
         <Card.Text>
           Owner: {owner}
         </Card.Text>
-        <Button className="CardButton" onClick={() => console.log(ID)}>Edit Game</Button>
-        <Button className="CardButton" >Start Game</Button>
+        <Button className="CardButton" variant="secondary" size="sm" onClick={() => setGoEditGame(true)}>Edit Game</Button>
+        <Button className="CardButton" variant="secondary" size="sm" onClick={() => DeleteGame(ID)}>Delete Game</Button><br />
+        <Button className="CardButton" onClick={() => StartGame(ID)}>Start Game</Button>
       </Card.Body>
       <Card.Img variant='bottom' src={img}/>
     </Card>
