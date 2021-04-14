@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import Header from '../components/Header.jsx';
 import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
+import Button from '@material-ui/core/Button';
 
 const Dashboard = () => {
   console.log(localStorage.getItem('token'))
@@ -28,7 +29,9 @@ const Dashboard = () => {
     <div>
       <Header />
       <h2>Dashboard</h2>
-      <Button>Create New Game</Button>
+      <Button variant="contained" color="primary">Create New Game</Button>
+      <div onClick={() => { navigator.clipboard.writeText('whats up nerd') }}>📋</div>
+      {/* <div onClick={() => { navigator.clipboard.writeText(this.state.textToCopy) }}>📋</div> */}
       <div id="GameTileContainer">
         {quizzes.map((quiz) => {
           return (
