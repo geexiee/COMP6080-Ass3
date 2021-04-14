@@ -31,10 +31,6 @@ const GameTile = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
 
-  if (goEditGame) {
-    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
-  }
-
   const deleteGame = async (ID) => {
     const response = await axios.delete(`http://localhost:5005/admin/quiz/${ID}`, {
       headers: {
@@ -122,6 +118,7 @@ const GameTile = (props) => {
       backgroundColor: 'white',
       border: '2px solid #000',
       boxShadow: '1px 1px',
+      textAlign: 'center',
       padding: '2px 5px 3px',
       margin: '2px',
     },
@@ -140,22 +137,27 @@ const GameTile = (props) => {
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Game Started</h2>
       <p id="simple-modal-description">
-        Here is the session code: {sessionID}
-        <IconButton size="small"><div onClick={() => { 
-          navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`) 
+        Here is the session code:
+        <h1>{sessionID}</h1>
+        <IconButton size="small"><div onClick={() => {
+          navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
         }}>📋</div></IconButton>
       </p>
-      <Button onClick={ () => {
+      <Button variant="outlined" onClick={ () => {
         console.log('Stop game: ', ID);
         stopGame(ID);
         handleClose();
-      }}>Stop Game</Button>
-      <Button onClick={ () => {
+      }}>Stop Game</Button>&nbsp;
+      <Button variant="outlined" onClick={ () => {
         console.log('Advance game: ', ID);
         advanceGame(ID);
       }}>Advance Game</Button>
     </div>
   );
+
+  if (goEditGame) {
+    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
+  }
 
   return (
     <Card className={classes.root} variant="outlined">

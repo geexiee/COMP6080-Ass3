@@ -112,7 +112,8 @@ const EditQuestion = () => {
         return 0;
       });
       console.log('old id list is: ', oldQuestionIdList);
-      const newID = Math.max(...oldQuestionIdList) + 1; // generating a unique id for the new question TODO: generate ids better
+      // const newID = Math.max(...oldQuestionIdList) + 1; // generating a unique id for the new question TODO: generate ids better
+      const newID = oldQuestionIdList.length + 1; // Math.max([]) = -Infinity  {math.max of empty array == -infinity}
       console.log('Newest ID is: ', newID);
       const newQuestionBody = {
         id: newID,

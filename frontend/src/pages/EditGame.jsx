@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams, generatePath } from 'react-router';
-import Header from '../components/Header.jsx';
 import { Redirect } from 'react-router-dom';
-import Button from 'react-bootstrap/Button'
 import axios from 'axios';
+import Header from '../components/Header.jsx';
+import Button from '@material-ui/core/Button';
 import QuestionTile from '../components/QuestionTile.jsx'
 
 // TODO: try put the thumbnail on each questiontile, style the editgame page so the tiles are ordered nicer
@@ -57,18 +57,18 @@ const EditGame = () => {
       <h2>Edit Game</h2>
       <p>Game ID: {params.gid}</p>
       <p>get id with /admin/quiz/{params.gid}</p>
-      <Button onClick={() => setGoEditQuestion(true)}>Add new question</Button>
+      <Button onClick={() => setGoEditQuestion(true)} variant="contained">Add new question</Button>
       <div id="QuestionTileDiv">
-        {questions.map((question) => {
-          console.log(question);
+        {questions.map((q) => {
+          console.log(q);
           return (
-            <QuestionTile key={question.id} qid={question.id} question={question.question} timeLimit={question.timeLimit} points={question.points} imageURL={question.imageURL} gid={params.gid}/> // pass onclick as a prop, hardcoded img for now xd
+            <QuestionTile key={q.id} qid={q.id} question={q.question} timeLimit={q.timeLimit} points={q.points} imageURL={q.imageURL} gid={params.gid}/> // pass onclick as a prop, hardcoded img for now xd
           );
         }
         )}
       </div>
-      <Button onClick={() => setGoEditQuestion(true)} size="sm">Edit question</Button>&nbsp;
-      <Button onClick={() => setGoDeleteQuestion(true)} size="sm">Delete question</Button>
+      <Button onClick={() => setGoEditQuestion(true)} variant="contained" size="small">Edit question</Button>&nbsp;
+      <Button onClick={() => setGoDeleteQuestion(true)} variant="contained" size="small">Delete question</Button>
     </div>
   );
 }

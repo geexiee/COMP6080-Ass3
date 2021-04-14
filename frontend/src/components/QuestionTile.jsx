@@ -16,17 +16,6 @@ const QuestionTile = (props) => {
   const [goDeleteQuestion, setGoDeleteQuestion] = React.useState(false);
   const { qid, question, timeLimit, imageURL, points, gid } = props;
 
-  // TODO: make url redirect work
-  if (goEditQuestion) {
-    console.log(generatePath('/edit/:gid/:qid', { gid: gid, qid: qid }))
-    return <Redirect to={generatePath('/edit/:gid/:qid', { gid: gid, qid: qid })} />
-  }
-
-  // TODO: implement deleting question
-  if (goDeleteQuestion) {
-    console.log('trying to delete q');
-  }
-
   const useStyles = makeStyles({
     root: {
       maxWidth: 345,
@@ -37,6 +26,16 @@ const QuestionTile = (props) => {
   });
 
   const classes = useStyles();
+
+  if (goEditQuestion) {
+    console.log(generatePath('/edit/:gid/:qid', { gid: gid, qid: qid }))
+    return <Redirect to={generatePath('/edit/:gid/:qid', { gid: gid, qid: qid })} />
+  }
+
+  // TODO: implement deleting question
+  if (goDeleteQuestion) {
+    console.log('trying to delete q');
+  }
 
   return (
     <Card variant="outlined" className={classes.root}>
