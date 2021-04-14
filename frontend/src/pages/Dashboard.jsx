@@ -3,7 +3,7 @@ import Header from '../components/Header.jsx';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
-import Button from 'react-bootstrap/Button'
+import Button from '@material-ui/core/Button';
 
 const Dashboard = () => {
   console.log(localStorage.getItem('token'))
@@ -34,7 +34,7 @@ const Dashboard = () => {
     <div>
       <Header />
       <h2>Dashboard</h2>
-      <Button onClick={() => setGoNewGame(true)}>Create New Game</Button>
+      <Button variant="contained" color="primary" onClick={() => setGoNewGame(true)}>Create New Game</Button>
       <div id="GameTileContainer">
         {quizzes.map((quiz) => {
           return (

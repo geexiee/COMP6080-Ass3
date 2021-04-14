@@ -12,7 +12,8 @@ import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import EditGame from './pages/EditGame.jsx';
 import EditQuestion from './pages/EditQuestion';
-import NewGame from './pages/NewGame';
+import JoinGame from './pages/JoinGame.jsx';
+import NewGame from './pages/NewGame.jsx';
 
 const App = () => {
   return (
@@ -36,6 +37,12 @@ const App = () => {
           </Route>
           <Route path="/new">
             <NewGame />
+          </Route>
+          <Route path="/join/:sid">
+            <JoinGame />
+          </Route>
+          <Route path="/join">
+            <JoinGame />
           </Route>
           <Route path="/">
             <Home />

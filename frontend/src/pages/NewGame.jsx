@@ -1,7 +1,8 @@
 import React from 'react';
-import Header from '../components/Header.jsx';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button'
+import Header from '../components/Header.jsx';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const NewGame = () => {
   const [name, setName] = React.useState('');
@@ -21,8 +22,8 @@ const NewGame = () => {
     <div>
       <Header />
       <h2>New Game</h2>
-      Name: <input onChange={e => setName(e.target.value)} value={name} type="text" />&nbsp;
-      <Button onClick={addNew} size="sm">Create</Button>
+      <TextField id="standard-basic" type="email" label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
+      <Button variant="contained" color="primary" onClick={addNew}>Create</Button>
     </div>
   );
 }
