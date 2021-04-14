@@ -2,14 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/AuthHeader.jsx';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   const loginUser = async () => {
     console.log(email, password);
-    // const data = { email, password, }
     const response = await axios.post('http://localhost:5005/admin/auth/login', {
       email,
       password
@@ -26,7 +28,6 @@ const Login = () => {
     }
   };
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
   if (loggedIn) {
     return <Redirect to="/dashboard" />;
   }
@@ -35,9 +36,9 @@ const Login = () => {
     <div>
       <Header />
       <h2>Login</h2>
-      Email: <input onChange={e => setEmail(e.target.value)} value={email} type="email" /><br />
-      Password: <input onChange={e => setPassword(e.target.value)} value={password} type="text" /><br />
-      <button onClick={loginUser}>Login</button>
+      <TextField id="standard-basic" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+      <TextField id="standard-basic" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+      <Button variant="contained" color="primary" onClick={loginUser}>Login</Button>
     </div>
   );
 }

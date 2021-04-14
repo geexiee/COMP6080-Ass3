@@ -13,6 +13,7 @@ const Header = () => {
       <Nav className="mr-auto">
         <Nav.Link><Link to="/dashboard">Dashboard</Link></Nav.Link>
         <Nav.Link><Link to="/new">New Game</Link></Nav.Link>
+        <Nav.Link><Link to="/join">Join Game</Link></Nav.Link>
       </Nav>
       <Form inline>
         {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
