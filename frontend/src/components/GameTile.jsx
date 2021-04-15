@@ -122,6 +122,7 @@ const GameTile = (props) => {
       backgroundColor: 'white',
       border: '2px solid #000',
       boxShadow: '1px 1px',
+      textAlign: 'center',
       padding: '2px 5px 3px',
       margin: '2px',
     },
@@ -140,9 +141,10 @@ const GameTile = (props) => {
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Game Started</h2>
       <p id="simple-modal-description">
-        Here is the session code: {sessionID}
-        <IconButton size="small"><div onClick={() => { 
-          navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`) 
+        Here is the session code:
+        <h1>{sessionID}</h1>
+        <IconButton size="small"><div onClick={() => {
+          navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
         }}>📋</div></IconButton>
       </p>
       <Button onClick={ () => {

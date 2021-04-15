@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header.jsx';
 import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
@@ -28,7 +29,7 @@ const Dashboard = () => {
     <div>
       <Header />
       <h2>Dashboard</h2>
-      <Button variant="contained" color="primary">Create New Game</Button>
+      <Button variant="contained" color="primary"><Link to="/new" style={{ color: 'white' }}>Create New Game</Link></Button>
       <div id="GameTileContainer">
         {quizzes.map((quiz) => {
           return (
