@@ -203,7 +203,7 @@ GameTile.propTypes = {
   ID: PropTypes.string,
   name: PropTypes.string,
   owner: PropTypes.string,
-  img: PropTypes.img
+  img: PropTypes.image
 };
 
 export default GameTile;
