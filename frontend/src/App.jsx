@@ -14,6 +14,7 @@ import EditGame from './pages/EditGame.jsx';
 import EditQuestion from './pages/EditQuestion';
 import JoinGame from './pages/JoinGame.jsx';
 import NewGame from './pages/NewGame.jsx';
+import AddQuestion from './pages/AddQuestion.jsx';
 
 const App = () => {
   return (
@@ -43,6 +44,9 @@ const App = () => {
           </Route>
           <Route path="/join">
             <JoinGame />
+          </Route>
+          <Route path="/add/:gid/">
+            <AddQuestion />
           </Route>
           <Route path="/">
             <Home />

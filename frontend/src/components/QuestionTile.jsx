@@ -10,11 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { generatePath } from 'react-router';
 import { Redirect } from 'react-router-dom';
+import { DeleteQuestion } from '../functions/DeleteQuestion'
 
 const QuestionTile = (props) => {
   const [goEditQuestion, setGoEditQuestion] = React.useState(false);
-  const [goDeleteQuestion, setGoDeleteQuestion] = React.useState(false);
-  const { qid, question, timeLimit, imageURL, points, gid } = props;
+  const { qid, question, timeLimit, imageURL, points, gid, videoURL } = props;
 
   const useStyles = makeStyles({
     root: {
@@ -32,11 +32,6 @@ const QuestionTile = (props) => {
     return <Redirect to={generatePath('/edit/:gid/:qid', { gid: gid, qid: qid })} />
   }
 
-  // TODO: implement deleting question
-  if (goDeleteQuestion) {
-    console.log('trying to delete q');
-  }
-
   return (
     <Card variant="outlined" className={classes.root}>
       <CardActionArea>
@@ -47,10 +42,19 @@ const QuestionTile = (props) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Question {qid}
+            Question {qid + 1}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            question: {question} timelimit: {timeLimit} points: {points}
+            question: {question}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            timelimit: {timeLimit}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            points: {points}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Video URL (if any): {videoURL}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -58,7 +62,7 @@ const QuestionTile = (props) => {
         <Button size="small" variant="contained" color="primary" onClick={() => setGoEditQuestion(true)}>
           Edit
         </Button>
-        <Button size="small" variant="contained" color="secondary" onClick={() => setGoDeleteQuestion(true)}>
+        <Button size="small" variant="contained" color="secondary" onClick={() => DeleteQuestion(qid, gid)}>
           Delete
         </Button>
       </CardActions>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
+import { Select, Checkbox, TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
 import axios from 'axios';
 import Header from '../components/Header.jsx';
 
@@ -18,8 +18,66 @@ const EditQuestion = () => {
   const [answer4, setAnswer4] = React.useState('');
   const [answer5, setAnswer5] = React.useState('');
   const [answer6, setAnswer6] = React.useState('');
-  const oldQuestionIdList = [];
+  const [numAnswers, setNumAnswers] = React.useState(2);
+  const [checked1, setchecked1] = React.useState(false);
+  const [checked2, setchecked2] = React.useState(false);
+  const [checked3, setchecked3] = React.useState(false);
+  const [checked4, setchecked4] = React.useState(false);
+  const [checked5, setchecked5] = React.useState(false);
+  const [checked6, setchecked6] = React.useState(false);
   const answerList = [];
+  const correctAnsList = [];
+  const [previousQuestion, setPreviousQuestion] = React.useState('');
+
+  const handleNumAnschange = (event) => {
+    setNumAnswers(event.target.value)
+  };
+
+  const check1 = () => {
+    checked1 ? setchecked1(false) : setchecked1(true);
+  }
+
+  const check2 = () => {
+    checked2 ? setchecked2(false) : setchecked2(true);
+  }
+
+  const check3 = () => {
+    checked3 ? setchecked3(false) : setchecked3(true);
+  }
+
+  const check4 = () => {
+    checked4 ? setchecked4(false) : setchecked4(true);
+  }
+
+  const check5 = () => {
+    checked5 ? setchecked5(false) : setchecked5(true);
+  }
+
+  const check6 = () => {
+    checked6 ? setchecked6(false) : setchecked6(true);
+  }
+
+  const GetQuestion = (gid, qid) => {
+    const response = axios.get(`http://localhost:5005/admin/quiz/${gid}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).catch(e => console.log(e.response.data.error));
+    if (response !== undefined && response.status === 200) {
+      console.log('hey');
+      console.log(response.data.questions);
+      response.data.questions.forEach((question) => {
+        if (question.id === Number(qid)) {
+          setPreviousQuestion(question);
+          console.log(question);
+        }
+      });
+      if (previousQuestion === '') {
+        alert('something went wrong, could not find the correct question id');
+      }
+    }
+  }
 
   const submitQuestion = async (question, questionType, timeLimit, points, image, videoURL) => {
     // generating list of answers and checking for valid input
@@ -72,9 +130,32 @@ const EditQuestion = () => {
       };
       answerList.push(answerObject);
     }
+
+    // Creating list of correct answers
+    // SIMPLIFY IF POSSIBLE
+    if (checked1) {
+      correctAnsList.push(0);
+    }
+    if (checked2) {
+      correctAnsList.push(1);
+    }
+    if (checked3) {
+      correctAnsList.push(2);
+    }
+    if (checked4) {
+      correctAnsList.push(3);
+    }
+    if (checked5) {
+      correctAnsList.push(4);
+    }
+    if (checked6) {
+      correctAnsList.push(5);
+    }
+
+    // Validation Checks
     if (answerList.length < 2) {
       alert('Please enter at least 2 answers :(');
-      return
+      return;
     }
     if (question === '') {
       alert('please enter a question :(');
@@ -84,16 +165,26 @@ const EditQuestion = () => {
       alert('please enter a question type :(');
       return;
     }
-    if (timeLimit === '') {
-      alert('please enter a time limit :(');
+    if (timeLimit === '' || timeLimit < 1) {
+      alert('please enter a valid time limit :(');
       return;
     }
-    if (points === '') {
-      alert('please enter points :(');
+    if (points === '' || points < 1) {
+      alert('please enter a valid number of points :(');
       return;
     }
 
-    // Fetch current quiz data so we can add the new question
+    // Validating that the correct question type has been chosen
+    if (questionType === 'Multiple Choice' && correctAnsList.length <= 1) {
+      alert('please select more than one correct answer :(');
+      return;
+    }
+    if (questionType === 'Single Choice' && correctAnsList.length !== 1) {
+      alert('please ensure you have chosen exactly 1 correct answer :(')
+      return;
+    }
+
+    // Fetch current quiz data so we can edit the current question
     const response = await axios.get(`http://localhost:5005/admin/quiz/${params.gid}`, {
       headers: {
         Accept: 'application/json',
@@ -101,35 +192,30 @@ const EditQuestion = () => {
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('Fetching current quiz data!');
       const questions = response.data.questions;
       const name = response.data.name;
       const thumbnail = response.data.thumbnail;
-      questions.map((question) => {
-        if (question.id != null) {
-          oldQuestionIdList.push(question.id); // generating list of existing question ids
+      let currentQuestion = -1;
+      let currentIndex = -1;
+      questions.map((question, index) => {
+        if (question.id === Number(params.qid)) {
+          currentQuestion = question;
+          currentIndex = index;
         }
         return 0;
       });
-      console.log('old id list is: ', oldQuestionIdList);
-      let newID = 1;
-      if (oldQuestionIdList.length !== 0) {
-        newID = Math.max(...oldQuestionIdList) + 1; // generating a unique id for the new question TODO: generate ids better
-      }
-      console.log('Newest ID is: ', newID);
       const newQuestionBody = {
-        id: newID,
+        id: Number(currentQuestion.id),
         question: question,
+        questionType: questionType,
         timeLimit: timeLimit,
         points: points,
         imageURL: image,
         videoURL: videoURL,
-        answerList: answerList
-        // TODO: add allAnswers, correctAnswers
+        answerList: answerList,
+        correctAnsList: correctAnsList
       }
-      console.log('old list of questions: ', questions)
-      questions.push(newQuestionBody); // Adding the new question to the old list of qs
-      console.log('new list of questions: ', questions);
+      questions.splice(currentIndex, 1, newQuestionBody);
       // Now that we have the current quiz data, we can update the quiz
       await axios.put(`http://localhost:5005/admin/quiz/${params.gid}`, {
         questions,
@@ -143,10 +229,14 @@ const EditQuestion = () => {
         }
       }).catch(e => console.log(e.response.data.error));
       if (response !== undefined && response.status === 200) {
-        console.log('successfully added question!');
+        alert('successfully edited question :^D');
       }
     }
   }
+
+  useEffect(() => {
+    GetQuestion(params.gid, params.qid);
+  }, []);
 
   // TODO: add a way for the user to mark correct answers, can indicate correct through either another list of correct answers or adding a field to answerobject
   return (
@@ -174,13 +264,70 @@ const EditQuestion = () => {
             <Input onInput={ e => setVideoURL(e.target.value)}></Input>
           </FormControl>
           <FormControl>
+            <InputLabel htmlFor="age-native-simple">Number of Answers</InputLabel>
+            <Select
+            native
+            value={numAnswers}
+            onChange={handleNumAnschange}
+            inputProps={{
+              name: 'age',
+              id: 'age-native-simple',
+            }}
+            >
+              <option aria-label="None" value="" />
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+           </Select>
             <p>Answer Options</p>
-            <TextField id="answer1" label="Answer 1" required onInput={ e => setAnswer1(e.target.value)}></TextField>
-            <TextField id="answer2" label="Answer 2" required onInput={ e => setAnswer2(e.target.value)}></TextField>
-            <TextField id="answer3" label="Answer 3" onInput={ e => setAnswer3(e.target.value)}></TextField>
-            <TextField id="answer4" label="Answer 4" onInput={ e => setAnswer4(e.target.value)}></TextField>
-            <TextField id="answer5" label="Answer 5" onInput={ e => setAnswer5(e.target.value)}></TextField>
-            <TextField id="answer6" label="Answer 6" onInput={ e => setAnswer6(e.target.value)}></TextField>
+            <div>
+              <TextField id="answer1" label="Answer 1" required onInput={ e => setAnswer1(e.target.value)}></TextField>
+              <FormControlLabel
+                control={<Checkbox onChange={check1}/>}
+                label="Correct"
+              />
+            </div>
+            <div>
+              <TextField id="answer2" label="Answer 2" required onInput={ e => setAnswer2(e.target.value)}></TextField>
+              <FormControlLabel
+                control={<Checkbox onChange={check2}/>}
+                label="Correct"
+              />
+            </div>
+            {numAnswers > 2 &&
+            <div>
+              <TextField id="answer3" label="Answer 3" onInput={ e => setAnswer3(e.target.value)}></TextField>
+              <FormControlLabel
+                control={<Checkbox onChange={check3}/>}
+                label="Correct"
+              />
+            </div>}
+            {numAnswers > 3 &&
+            <div>
+              <TextField id="answer4" label="Answer 4" onInput={ e => setAnswer4(e.target.value)}></TextField>
+              <FormControlLabel
+                control={<Checkbox onChange={check4}/>}
+                label="Correct"
+              />
+            </div>}
+            {numAnswers > 4 &&
+            <div>
+              <TextField id="answer5" label="Answer 5" onInput={ e => setAnswer5(e.target.value)}></TextField>
+              <FormControlLabel
+                control={<Checkbox onChange={check5}/>}
+                label="Correct"
+              />
+            </div>}
+            {numAnswers > 5 &&
+            <div>
+              <TextField id="answer6" label="Answer 6" onInput={ e => setAnswer6(e.target.value)}></TextField>
+              <FormControlLabel
+                control={<Checkbox onChange={check6}/>}
+                label="Correct"
+              />
+            </div>}
           </FormControl>
           <Button variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
         </FormControl>
@@ -190,46 +337,3 @@ const EditQuestion = () => {
 };
 
 export default EditQuestion;
-// THIS IS ALL JUST DUMMY DATA TO MANUALLY PUT IN THE API FOR TESTING
-// {
-//   "questions": [
-//     {
-//       "id": 0,
-//       "question": "What is my dogs name?",
-//       "timeLimit": "10",
-//       "points": "10",
-//       "imageURL": "",
-//       "videoURL": "",
-//       "answerList": [
-//         {
-//           "id": 0,
-//           "answer": "caleb"
-//         },
-//         {
-//           "id": 1,
-//           "answer": "caneb"
-//         }
-//       ]
-//     },
-//     {
-//       "id": 1,
-//       "question": "What is my cats name?",
-//       "timeLimit": "10",
-//       "points": "10",
-//       "imageURL": "",
-//       "videoURL": "",
-//       "answerList": [
-//         {
-//           "id": 0,
-//           "answer": "kitty"
-//         },
-//         {
-//           "id": 1,
-//           "answer": "kat"
-//         }
-//       ]
-//     }
-//   ],
-//   "name": "My first quiz",
-//   "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-// }
