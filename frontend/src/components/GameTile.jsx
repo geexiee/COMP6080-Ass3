@@ -15,7 +15,8 @@ import Modal from '@material-ui/core/Modal';
 const GameTile = (props) => {
   const { ID, name, owner, img } = props;
   const [goEditGame, setGoEditGame] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [openStart, setOpenStart] = React.useState(false);
+  const [openRes, setOpenRes] = React.useState(false);
   const [sessionID, setSessionID] = React.useState('');
 
   const getModalStyle = () => {
@@ -129,15 +130,23 @@ const GameTile = (props) => {
   });
   const classes = useStyles();
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenStart = () => {
+    setOpenStart(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseStart = () => {
+    setOpenStart(false);
   };
 
-  const body = (
+  const handleOpenRes = () => {
+    setOpenRes(true);
+  };
+
+  const handleCloseRes = () => {
+    setOpenRes(false);
+  };
+
+  const bodyStart = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Game Started</h2>
       <p id="simple-modal-description">
@@ -150,12 +159,25 @@ const GameTile = (props) => {
       <Button onClick={ () => {
         console.log('Stop game: ', ID);
         stopGame(ID);
-        handleClose();
+        handleCloseStart();
+        handleOpenRes();
       }}>Stop Game</Button>
       <Button onClick={ () => {
         console.log('Advance game: ', ID);
         advanceGame(ID);
       }}>Advance Game</Button>
+    </div>
+  );
+
+  const bodyRes = (
+    <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title">Game Stopped</h2>
+      <p id="simple-modal-description">Would you like to view the results?</p>
+      <Button color="primary" onClick={ () => {
+        console.log('gang');
+        // redirect to res page /results/${sessionID}
+      }}>Yes</Button>
+      <Button onClick={ () => handleCloseRes() }>No</Button>
     </div>
   );
 
@@ -173,20 +195,30 @@ const GameTile = (props) => {
         </Typography>
         <Typography variant="body2" component="p">
           <Button variant="outlined" size="small" onClick={() => setGoEditGame(true)}>Edit Game</Button>&nbsp;
-          <Button variant="outlined" size="small" onClick={() => deleteGame(ID)}>Delete Game</Button><br /><br />
+          <Button variant="outlined" color="secondary" size="small" onClick={() => deleteGame(ID)}>Delete Game</Button><br /><br />
           <Button variant="contained" size="small" color="primary"
             onClick={() => {
               startGame(ID);
-              handleOpen();
+              handleOpenStart();
               getSessionId();
             }}>Start Game</Button>
+          {/* Start Game modal */}
           <Modal
-            open={open}
-            onClose={handleClose}
+            open={openStart}
+            onClose={handleCloseStart}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
           >
-            {body}
+            {bodyStart}
+          </Modal>
+          {/* Results modal */}
+          <Modal
+            open={openRes}
+            onClose={handleCloseRes}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {bodyRes}
           </Modal>
         </Typography>
       </CardContent>

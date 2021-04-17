@@ -12,6 +12,7 @@ import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import JoinGame from './pages/JoinGame.jsx';
 import NewGame from './pages/NewGame.jsx';
+import GameResult from './pages/GameResult';
 
 const App = () => {
   return (
@@ -35,6 +36,9 @@ const App = () => {
           </Route>
           <Route path="/join">
             <JoinGame />
+          </Route>
+          <Route path="/results/:sid">
+            <GameResult />
           </Route>
           <Route path="/">
             <Home />
