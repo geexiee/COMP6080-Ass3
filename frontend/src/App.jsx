@@ -48,6 +48,7 @@ const App = () => {
           </Route>
           <Route path="/results/:sid">
             <GameResult />
+          </Route>
           <Route path="/add/:gid/">
             <AddQuestion />
           </Route>

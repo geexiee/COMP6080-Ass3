@@ -32,6 +32,10 @@ const GameTile = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
 
+  if (goEditGame) {
+    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
+  }
+
   const deleteGame = async (ID) => {
     const response = await axios.delete(`http://localhost:5005/admin/quiz/${ID}`, {
       headers: {
