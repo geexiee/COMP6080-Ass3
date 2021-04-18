@@ -3,6 +3,7 @@ import axios from 'axios';
 import Header from '../components/Header.jsx';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Input } from '@material-ui/core';
 
 const NewGame = () => {
   const [name, setName] = React.useState('');
@@ -23,6 +24,10 @@ const NewGame = () => {
       <Header />
       <h2>New Game</h2>
       <TextField id="standard-basic" type="email" label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
+      <div>
+        <p>Upload Game (optional, .json files only)</p>
+        <Input type="file" label="Image">Upload Game</Input>
+      </div>
       <Button variant="contained" color="primary" onClick={addNew}>Create</Button>
     </div>
   );

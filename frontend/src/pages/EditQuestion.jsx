@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { Select, Checkbox, TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
 import axios from 'axios';
 import Header from '../components/Header.jsx';
+import uuid from 'react-uuid';
 
 const EditQuestion = () => {
   const params = useParams();
@@ -83,73 +84,64 @@ const EditQuestion = () => {
     // generating list of answers and checking for valid input
     // TODO: SIMPLIFY IF POSSIBLE
     if (answer1 !== '') {
-      const newID = answerList.length;
       const answerObject = {
-        id: newID,
+        id: uuid(),
         answer: answer1
       };
       answerList.push(answerObject);
+      if (checked1) {
+        correctAnsList.push(answerObject.id);
+      }
     }
     if (answer2 !== '') {
-      const newID = answerList.length;
       const answerObject = {
-        id: newID,
+        id: uuid(),
         answer: answer2
       };
       answerList.push(answerObject);
+      if (checked2) {
+        correctAnsList.push(answerObject.id);
+      }
     }
     if (answer3 !== '') {
-      const newID = answerList.length;
       const answerObject = {
-        id: newID,
+        id: uuid(),
         answer: answer3
       };
       answerList.push(answerObject);
+      if (checked3) {
+        correctAnsList.push(answerObject.id);
+      }
     }
     if (answer4 !== '') {
-      const newID = answerList.length;
       const answerObject = {
-        id: newID,
+        id: uuid(),
         answer: answer4
       };
       answerList.push(answerObject);
+      if (checked4) {
+        correctAnsList.push(answerObject.id);
+      }
     }
     if (answer5 !== '') {
-      const newID = answerList.length;
       const answerObject = {
-        id: newID,
+        id: uuid(),
         answer: answer5
       };
       answerList.push(answerObject);
+      if (checked5) {
+        correctAnsList.push(answerObject.id);
+      }
     }
     if (answer6 !== '') {
-      const newID = answerList.length;
       const answerObject = {
-        id: newID,
+        id: uuid(),
         answer: answer5
       };
       answerList.push(answerObject);
-    }
-
-    // Creating list of correct answers
-    // SIMPLIFY IF POSSIBLE
-    if (checked1) {
-      correctAnsList.push(0);
-    }
-    if (checked2) {
-      correctAnsList.push(1);
-    }
-    if (checked3) {
-      correctAnsList.push(2);
-    }
-    if (checked4) {
-      correctAnsList.push(3);
-    }
-    if (checked5) {
-      correctAnsList.push(4);
-    }
-    if (checked6) {
-      correctAnsList.push(5);
+      if (checked6) {
+        correctAnsList.push(answerObject.id);
+      }
     }
 
     // Validation Checks
