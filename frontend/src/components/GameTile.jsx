@@ -32,10 +32,6 @@ const GameTile = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
 
-  if (goEditGame) {
-    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
-  }
-
   const deleteGame = async (ID) => {
     const response = await axios.delete(`http://localhost:5005/admin/quiz/${ID}`, {
       headers: {
@@ -156,7 +152,7 @@ const GameTile = (props) => {
           navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
         }}>📋</div></IconButton>
       </p>
-      <Button onClick={ () => {
+      <Button variant="outlined" onClick={ () => {
         console.log('Stop game: ', ID);
         stopGame(ID);
         handleCloseStart();
@@ -232,10 +228,10 @@ const GameTile = (props) => {
 }
 
 GameTile.propTypes = {
-  ID: PropTypes.string,
+  ID: PropTypes.number,
   name: PropTypes.string,
   owner: PropTypes.string,
-  img: PropTypes.img
+  img: PropTypes.string
 };
 
 export default GameTile;
