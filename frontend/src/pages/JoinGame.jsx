@@ -17,13 +17,14 @@ const JoinGame = () => {
     const response = await axios.post(`http://localhost:5005/play/join/${sid}`, { name })
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
-      console.log(name, 'joined game ', sid);
       setPID(response.data.playerId);
+      console.log(name, 'joined game ', sid, 'with pid ', pid);
       setGoPlay(true);
     }
   };
 
   if (goPlay) {
+    console.log('playerid is: ', pid);
     return <Redirect to={generatePath('/play/:pid', { pid: pid })} />
   }
 
