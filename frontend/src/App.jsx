@@ -10,9 +10,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import EditGame from './pages/EditGame.jsx';
+import EditQuestion from './pages/EditQuestion';
 import JoinGame from './pages/JoinGame.jsx';
 import NewGame from './pages/NewGame.jsx';
 import PlayGame from './pages/PlayGame.jsx';
+import AddQuestion from './pages/AddQuestion.jsx';
 
 const App = () => {
   return (
@@ -28,6 +31,12 @@ const App = () => {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
+          <Route path="/edit/:gid/:qid">
+            <EditQuestion />
+          </Route>
+          <Route path="/edit/:gid">
+            <EditGame />
+          </Route>
           <Route path="/new">
             <NewGame />
           </Route>
@@ -42,6 +51,9 @@ const App = () => {
           </Route>
           <Route path="/play">
             <Redirect to="/join" />
+          </Route>
+          <Route path="/add/:gid/">
+            <AddQuestion />
           </Route>
           <Route path="/">
             <Home />

@@ -31,10 +31,6 @@ const GameTile = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
 
-  if (goEditGame) {
-    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
-  }
-
   const deleteGame = async (ID) => {
     const response = await axios.delete(`http://localhost:5005/admin/quiz/${ID}`, {
       headers: {
@@ -147,17 +143,21 @@ const GameTile = (props) => {
           navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
         }}>📋</div></IconButton>
       </p>
-      <Button onClick={ () => {
+      <Button variant="outlined" onClick={ () => {
         console.log('Stop game: ', ID);
         stopGame(ID);
         handleClose();
-      }}>Stop Game</Button>
-      <Button onClick={ () => {
+      }}>Stop Game</Button>&nbsp;
+      <Button variant="outlined" onClick={ () => {
         console.log('Advance game: ', ID);
         advanceGame(ID);
       }}>Advance Game</Button>
     </div>
   );
+
+  if (goEditGame) {
+    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
+  }
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -200,10 +200,10 @@ const GameTile = (props) => {
 }
 
 GameTile.propTypes = {
-  ID: PropTypes.string,
+  ID: PropTypes.number,
   name: PropTypes.string,
   owner: PropTypes.string,
-  img: PropTypes.image
+  img: PropTypes.string
 };
 
 export default GameTile;
