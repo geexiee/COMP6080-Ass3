@@ -10,7 +10,6 @@ import { shallow } from 'enzyme';
 // });
 
 describe('GameTile testing', () => {
-
   it('has a specified game name', () => {
     const gameName = 'testname'
     const gameTile = shallow(<GameTile ID={0} owner={'testOwner'} name={gameName}
@@ -31,5 +30,4 @@ describe('GameTile testing', () => {
        img='https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png'/>);
     expect(gameTile.text()).toContain(gameOwner);
   });
-
 });
