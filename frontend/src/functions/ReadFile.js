@@ -4,8 +4,7 @@ export const ReadFile = async (file, gid, name) => {
   const reader = new FileReader();
   reader.onload = async (e) => {
     const text = (e.target.result);
-    console.log(text);
-    const jsonFile = JSON.parse(text);
+    const jsonFile = JSON.parse(JSON.stringify(text));
     const questions = jsonFile.questions;
     const thumbnail = jsonFile.thumbnail;
     questions.forEach((value, index) => {
