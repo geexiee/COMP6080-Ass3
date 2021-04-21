@@ -97,7 +97,7 @@ const GameTile = (props) => {
   const useStyles = makeStyles({
     root: {
       minWidth: 275,
-      width: 275,
+      width: 350,
       margin: 10,
     },
     media: {
