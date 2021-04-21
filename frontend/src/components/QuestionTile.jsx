@@ -33,7 +33,7 @@ const QuestionTile = (props) => {
   }
 
   return (
-    <Card variant="outlined" className={classes.root}>
+    <Card name="questionTile" variant="outlined" className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}

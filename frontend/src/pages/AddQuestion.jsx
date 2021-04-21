@@ -200,14 +200,14 @@ const AddQuestion = () => {
             <div>
               <TextField id="answer1" label="Answer 1" required onInput={ e => setAnswer1(e.target.value)}></TextField>
               <FormControlLabel
-                control={<Checkbox onChange={check1}/>}
+                control={<Checkbox name="checkbox1" onChange={check1}/>}
                 label="Correct"
               />
             </div>
             <div>
               <TextField id="answer2" label="Answer 2" required onInput={ e => setAnswer2(e.target.value)}></TextField>
               <FormControlLabel
-                control={<Checkbox onChange={check2}/>}
+                control={<Checkbox name="checkbox2" onChange={check2}/>}
                 label="Correct"
               />
             </div>
@@ -215,7 +215,7 @@ const AddQuestion = () => {
             <div>
               <TextField id="answer3" label="Answer 3" onInput={ e => setAnswer3(e.target.value)}></TextField>
               <FormControlLabel
-                control={<Checkbox onChange={check3}/>}
+                control={<Checkbox name="checkbox3" onChange={check3}/>}
                 label="Correct"
               />
             </div>}
@@ -223,7 +223,7 @@ const AddQuestion = () => {
             <div>
               <TextField id="answer4" label="Answer 4" onInput={ e => setAnswer4(e.target.value)}></TextField>
               <FormControlLabel
-                control={<Checkbox onChange={check4}/>}
+                control={<Checkbox name="checkbox4" onChange={check4}/>}
                 label="Correct"
               />
             </div>}
@@ -231,7 +231,7 @@ const AddQuestion = () => {
             <div>
               <TextField id="answer5" label="Answer 5" onInput={ e => setAnswer5(e.target.value)}></TextField>
               <FormControlLabel
-                control={<Checkbox onChange={check5}/>}
+                control={<Checkbox name="checkbox5" onChange={check5}/>}
                 label="Correct"
               />
             </div>}
@@ -239,7 +239,7 @@ const AddQuestion = () => {
             <div>
               <TextField id="answer6" label="Answer 6" onInput={ e => setAnswer6(e.target.value)}></TextField>
               <FormControlLabel
-                control={<Checkbox onChange={check6}/>}
+                control={<Checkbox name="checkbox6" onChange={check6}/>}
                 label="Correct"
               />
             </div>}

@@ -87,7 +87,7 @@ context('Add question path', () => {
 
       cy.get('input[id=answer1]')
         .focus()
-        .type(answer1);
+        .type(answer3);
 
       cy.get('input[id=answer2]')
         .focus()
@@ -95,12 +95,33 @@ context('Add question path', () => {
         
       cy.get('input[id=answer3]')
         .focus()
-        .type(answer3);
+        .type(answer1);
+      
+      cy.get('[type="checkbox"]')
+        .first()
+        .check(); 
 
       // click the submit question button
       cy.get('button[name=submitNewQuestionButton')
         .click();
+      
+      // navigate back to dashboard
+      cy.get('a[href="/dashboard"')
+        .click();
+    
+      expect(cy.location('pathname').should('eq', '/dashboard'));
 
+      // navigate back to our previous game
+      cy.get('button[name=editGameButton')
+        .click();
+      
+      // check that we're in the edit game screen
+      cy.location('pathname').should('match', /edit\/\d+/);
+
+      // check that our question is there
+      cy.get('p[id=question]')
+        .should('have.text', `question: ${question}`);
+      
       // logout
       cy.get('button[id=logoutButton')
         .click()
