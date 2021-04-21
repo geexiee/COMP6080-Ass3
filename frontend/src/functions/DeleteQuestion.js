@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const DeleteQuestion = async (qid, gid) => {
-  console.log('deleting ', qid);
   const questions = [];
   const response = await axios.get(`http://localhost:5005/admin/quiz/${gid}`, {
     headers: {

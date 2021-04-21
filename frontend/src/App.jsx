@@ -14,7 +14,11 @@ import EditGame from './pages/EditGame.jsx';
 import EditQuestion from './pages/EditQuestion';
 import JoinGame from './pages/JoinGame.jsx';
 import NewGame from './pages/NewGame.jsx';
+<<<<<<< HEAD
 import GameResult from './pages/GameResult';
+=======
+import PlayGame from './pages/PlayGame.jsx';
+>>>>>>> 5f193980cfccd54558ad6c79b29ae85e5a265686
 import AddQuestion from './pages/AddQuestion.jsx';
 
 const App = () => {
@@ -48,6 +52,12 @@ const App = () => {
           </Route>
           <Route path="/results/:sid">
             <GameResult />
+          </Route>
+          <Route path="/play/:pid">
+            <PlayGame />
+          </Route>
+          <Route path="/play">
+            <Redirect to="/join" />
           </Route>
           <Route path="/add/:gid/">
             <AddQuestion />

@@ -5,7 +5,18 @@
 */
 export const quizQuestionPublicReturn = question => {
   console.log('See question: ', question);
-  return question;
+  const publicQuestion = {
+    id: question.id,
+    question: question.question,
+    questionType: question.questionType,
+    timeLimit: question.timeLimit,
+    points: question.points,
+    imageURL: question.imageURL,
+    videoURL: question.videoURL,
+    answerList: question.answerList, // this is the list of ALL answers 
+  }
+  console.log(typeof (question.answerList));
+  return publicQuestion;
 };
 
 /*
@@ -13,9 +24,7 @@ export const quizQuestionPublicReturn = question => {
  the correct answers (minimum 1).
 */
 export const quizQuestionGetCorrectAnswers = question => {
-  return [
-    123,
-  ]; // For a single answer
+  return question.correctAnsList; // array of correct answer IDs
 };
 
 /*
@@ -23,11 +32,7 @@ export const quizQuestionGetCorrectAnswers = question => {
  all of the answers, correct or incorrect.
 */
 export const quizQuestionGetAnswers = question => {
-  return [
-    123,
-    456,
-    678,
-  ]; // For a single answer
+  return question.answerList; // array of ALL answers
 };
 
 /*
@@ -35,5 +40,5 @@ export const quizQuestionGetAnswers = question => {
  of the question once it starts. (Seconds)
 */
 export const quizQuestionGetDuration = question => {
-  return 10;
+  return question.timeLimit;
 };
