@@ -58,8 +58,6 @@ const AddQuestion = () => {
   }
 
   const submitQuestion = async (question, questionType, timeLimit, points, image, videoURL) => {
-    // generating list of answers and checking for valid input
-    // TODO: SIMPLIFY IF POSSIBLE
     if (answer1 !== '') {
       const answerObject = {
         id: uuid(),
