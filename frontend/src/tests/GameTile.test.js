@@ -3,12 +3,12 @@ import React from 'react';
 import GameTile from '../components/GameTile';
 import { shallow } from 'enzyme';
 
-// test('GameTile has edit game button', () => {
-//   render(<GameTile />);
-//   const linkElement = screen.getByText(/home/i);
-//   expect(linkElement).toBeInTheDocument();
-// });
-
+const testQuizDetails = {
+  ID: 0,
+  name: 'test quiz',
+  owner: 'test owner',
+  img: 'puppy.jpeg'
+}
 describe('GameTile testing', () => {
   it('has a specified game name', () => {
     const gameName = 'testname'
