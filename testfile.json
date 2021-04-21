@@ -1,0 +1,80 @@
+{
+  "questions": [
+    {
+      "question": "What is calebs favourite food?",
+      "questionType": "Single Choice",
+      "timeLimit": 10,
+      "points": 10,
+      "imageURL": "",
+      "videoURL": "",
+      "answerList": [
+        {
+          "id": 0,
+          "answer": "chicken breast"
+        },
+        {
+          "id": 1,
+          "answer": "beef jerky"
+        },
+        {
+          "id": 2,
+          "answer": "shark sticks"
+        }
+      ],
+      "correctAnsList": [
+        0
+      ]
+    },
+    {
+      "question": "What is calebs favourite activity?",
+      "questionType": "Multiple Choice",
+      "timeLimit": 10,
+      "points": 10,
+      "imageURL": "",
+      "videoURL": "",
+      "answerList": [
+        {
+          "id": 0,
+          "answer": "walks"
+        },
+        {
+          "id": 1,
+          "answer": "pats"
+        },
+        {
+          "id": 2,
+          "answer": "baths"
+        }
+      ],
+      "correctAnsList": [
+        0,1
+      ]
+    },
+    {
+      "question": "How cute is caleb?",
+      "questionType": "Single Choice",
+      "timeLimit": 10,
+      "points": 10,
+      "imageURL": "",
+      "videoURL": "",
+      "answerList": [
+        {
+          "id": 0,
+          "answer": "not that cute"
+        },
+        {
+          "id": 1,
+          "answer": "pretty cute"
+        },
+        {
+          "id": 2,
+          "answer": "unbelievably cute"
+        }
+      ],
+      "correctAnsList": [
+        2
+      ]
+    }
+  ],
+  "thumbnail": "https://w3i7z3h8.stackpathcdn.com/wp-content/uploads/2020/07/Training-Time-Aug2020-GR-with-ball-scaled.jpg"
+}

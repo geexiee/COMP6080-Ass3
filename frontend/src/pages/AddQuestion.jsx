@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { Checkbox, Select, TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
-import axios from 'axios';
 import Header from '../components/Header.jsx';
 import uuid from 'react-uuid';
+import { AddQuestionToGame } from '../functions/AddQuestionToGame.js'
 
 const AddQuestion = () => {
   const params = useParams();
@@ -26,7 +26,6 @@ const AddQuestion = () => {
   const [checked4, setchecked4] = React.useState(false);
   const [checked5, setchecked5] = React.useState(false);
   const [checked6, setchecked6] = React.useState(false);
-  const oldQuestionIdList = [];
   const answerList = [];
   const correctAnsList = [];
 
@@ -154,56 +153,7 @@ const AddQuestion = () => {
       return;
     }
 
-    // Fetch current quiz data so we can add the new question
-    const response = await axios.get(`http://localhost:5005/admin/quiz/${params.gid}`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }).catch(e => console.log(e.response.data.error));
-    if (response !== undefined && response.status === 200) {
-      const questions = response.data.questions;
-      const name = response.data.name;
-      const thumbnail = response.data.thumbnail;
-      questions.map((question) => {
-        if (question.id != null) {
-          oldQuestionIdList.push(question.id); // generating list of existing question ids
-        }
-        return 0;
-      });
-      console.log('old id list is: ', oldQuestionIdList);
-      const newID = oldQuestionIdList.length;
-      console.log('Newest ID is: ', oldQuestionIdList.length);
-      const newQuestionBody = {
-        id: newID,
-        question: question,
-        questionType: questionType,
-        timeLimit: timeLimit,
-        points: points,
-        imageURL: image,
-        videoURL: videoURL,
-        answerList: answerList,
-        correctAnsList: correctAnsList
-      }
-      console.log('old list of questions: ', questions)
-      questions.push(newQuestionBody); // Adding the new question to the old list of qs
-      console.log('new list of questions: ', questions);
-      // Now that we have the current quiz data, we can update the quiz
-      await axios.put(`http://localhost:5005/admin/quiz/${params.gid}`, {
-        questions,
-        name,
-        thumbnail
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      }).catch(e => console.log(e.response.data.error));
-      if (response !== undefined && response.status === 200) {
-        alert('successfully added question :~D');
-      }
-    }
+    AddQuestionToGame(params.gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList);
   }
 
   return (
