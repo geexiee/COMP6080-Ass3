@@ -36,12 +36,12 @@ const NewGame = () => {
     <div>
       <Header />
       <h2>New Game</h2>
-      <TextField id="standard-basic" type="email" label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
+      <TextField name="gameName" id="standard-basic" type="email" label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
       <div>
         <p>Upload Game (optional, .json files only)</p>
         <Input type="file" label="Image" onInput={ e => setFile(e.target.files[0])}>Upload Game</Input>
       </div>
-      <Button variant="contained" color="primary" onClick={handleCreateNewGame}>Create</Button>
+      <Button name="createButton" variant="contained" color="primary" onClick={handleCreateNewGame}>Create</Button>
     </div>
   );
 }

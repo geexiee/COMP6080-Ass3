@@ -36,9 +36,9 @@ const Login = () => {
     <div>
       <Header />
       <h2>Login</h2>
-      <TextField id="standard-basic" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
-      <TextField id="standard-basic" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
-      <Button variant="contained" color="primary" onClick={loginUser}>Login</Button>
+      <TextField name="loginEmail" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+      <TextField name="loginPassword" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+      <Button name="loginButton" variant="contained" color="primary" onClick={loginUser}>Login</Button>
     </div>
   );
 }

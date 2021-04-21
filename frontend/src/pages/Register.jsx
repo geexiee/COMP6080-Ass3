@@ -33,10 +33,10 @@ const Register = () => {
     <div>
       <Header />
       <h2>Register</h2>
-      <TextField id="standard-basic" type="text" label="Name" onChange={e => setName(e.target.value)} value={name} /><br />
-      <TextField id="standard-basic" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
-      <TextField id="standard-basic" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
-      <Button variant="contained" color="primary" onClick={registerUser}>Register</Button>
+      <TextField name="name" className="nameTextField" id="standard-basic" type="text" label="Name" onChange={e => setName(e.target.value)} value={name} /><br />
+      <TextField name="email" className="emailTextField" id="standard-basic" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+      <TextField name="password" className="passwordTextField" id="standard-basic" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+      <Button name="submitRegistrationButton" variant="contained" color="primary" onClick={registerUser}>Register</Button>
     </div>
   );
 }

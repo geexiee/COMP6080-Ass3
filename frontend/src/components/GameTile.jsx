@@ -135,20 +135,20 @@ const GameTile = (props) => {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Game Started</h2>
-      <p id="simple-modal-description">
+      <h2 id="gameModalTitle">Game Started</h2>
+      <p id="gameModalDescription">
         Here is the session code:
         <h1>{sessionID}</h1>
         <IconButton size="small"><div onClick={() => {
           navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
         }}>📋</div></IconButton>
       </p>
-      <Button variant="outlined" onClick={ () => {
+      <Button id="stopGameButton" variant="outlined" onClick={ () => {
         console.log('Stop game: ', ID);
         stopGame(ID);
         handleClose();
       }}>Stop Game</Button>&nbsp;
-      <Button variant="outlined" onClick={ () => {
+      <Button id="advanceGameButton" variant="outlined" onClick={ () => {
         console.log('Advance game: ', ID);
         advanceGame(ID);
       }}>Advance Game</Button>
@@ -162,19 +162,19 @@ const GameTile = (props) => {
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className={classes.title} color="textSecondary" gutterBottom id="gameID">
           Game ID: {ID}
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" id="gameName">
           Game Name: {name}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
+        <Typography className={classes.pos} color="textSecondary" id="gameOwner">
           Owner: {owner}
         </Typography>
         <Typography variant="body2" component="p">
-          <Button variant="outlined" size="small" onClick={() => setGoEditGame(true)}>Edit Game</Button>&nbsp;
-          <Button variant="outlined" size="small" onClick={() => deleteGame(ID)}>Delete Game</Button><br /><br />
-          <Button variant="contained" size="small" color="primary"
+          <Button variant="outlined" size="small" onClick={() => setGoEditGame(true)} className="editGameButton">Edit Game</Button>&nbsp;
+          <Button variant="outlined" size="small" onClick={() => deleteGame(ID)} className="deleteGameButton">Delete Game</Button><br /><br />
+          <Button name="startGameButton" variant="contained" size="small" color="primary"
             onClick={() => {
               startGame(ID);
               handleOpen();

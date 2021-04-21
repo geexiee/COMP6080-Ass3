@@ -41,19 +41,19 @@ const QuestionTile = (props) => {
           title="Question"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" id="questionNumber">
             Question {qid + 1}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="p" id="question">
             question: {question}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="p" id="timeLimit">
             timelimit: {timeLimit}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="p" id="points">
             points: {points}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="p" id="videoURL">
             Video URL (if any): {videoURL}
           </Typography>
         </CardContent>
