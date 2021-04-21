@@ -1,8 +1,4 @@
-context('Admin flow - happy path', () => {
-  beforeEach(() => {
-
-  });
-
+context('Happy path', () => {
   it('Goes through the happy path', () => {
     cy.visit('localhost:3000');
     const name = 'John Smith';
@@ -86,7 +82,6 @@ context('Admin flow - happy path', () => {
     
     // assert that we're logged back in
     expect(cy.location('pathname').should('eq', '/dashboard'));
-
   });
 });
   

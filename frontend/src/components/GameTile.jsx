@@ -172,7 +172,7 @@ const GameTile = (props) => {
           Owner: {owner}
         </Typography>
         <Typography variant="body2" component="p">
-          <Button variant="outlined" size="small" onClick={() => setGoEditGame(true)} className="editGameButton">Edit Game</Button>&nbsp;
+          <Button name="editGameButton" variant="outlined" size="small" onClick={() => setGoEditGame(true)} className="editGameButton">Edit Game</Button>&nbsp;
           <Button variant="outlined" size="small" onClick={() => deleteGame(ID)} className="deleteGameButton">Delete Game</Button><br /><br />
           <Button name="startGameButton" variant="contained" size="small" color="primary"
             onClick={() => {

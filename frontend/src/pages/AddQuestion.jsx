@@ -162,11 +162,11 @@ const AddQuestion = () => {
         <p>Game ID: {params.gid}</p>
         <FormControl>
           <FormControl>
-            <TextField label="Question" required onInput={ e => setQuestion(e.target.value)}></TextField>
+            <TextField name="question" label="Question" required onInput={ e => setQuestion(e.target.value)}></TextField>
             <FormLabel required>Question Type</FormLabel>
             <RadioGroup aria-label="Question Type" name="questionType" onInput={ e => setQuestionType(e.target.value)}>
-              <FormControlLabel value="Multiple Choice" control={<Radio />} label="Multiple Choice" />
-              <FormControlLabel value="Single Choice" control={<Radio />} label="Single Choice" />
+              <FormControlLabel name="multipleChoice" value="Multiple Choice" control={<Radio />} label="Multiple Choice" />
+              <FormControlLabel name="singleChoice" value="Single Choice" control={<Radio />} label="Single Choice" />
             </RadioGroup>
             <TextField id="timeLimit" type="number" label="Time Limit (s)" required onInput={ e => setTimeLimit(e.target.value)}></TextField>
             <TextField id="points" type="number" label="Points" required onInput={ e => setPoints(e.target.value)}></TextField>
@@ -180,6 +180,7 @@ const AddQuestion = () => {
           <FormControl>
             <InputLabel htmlFor="age-native-simple">Number of Answers</InputLabel>
             <Select
+            name="numAnswers"
             native
             value={numAnswers}
             onChange={handleNumAnschange}
@@ -243,7 +244,7 @@ const AddQuestion = () => {
               />
             </div>}
           </FormControl>
-          <Button variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
+          <Button name="submitNewQuestionButton" variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
         </FormControl>
       </form>
     </div>
