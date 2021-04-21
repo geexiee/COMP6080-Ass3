@@ -5,7 +5,7 @@
 */
 export const quizQuestionPublicReturn = question => {
   console.log('See question: ', question);
-  publicQuestion = {
+  const publicQuestion = {
     id: question.id,
     question: question.question,
     questionType: question.questionType,
@@ -15,6 +15,7 @@ export const quizQuestionPublicReturn = question => {
     videoURL: question.videoURL,
     answerList: question.answerList, // this is the list of ALL answers 
   }
+  console.log(typeof (question.answerList));
   return publicQuestion;
 };
 

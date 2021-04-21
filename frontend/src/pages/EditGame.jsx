@@ -49,7 +49,6 @@ const EditGame = () => {
         }
         )}
       </div>
-      <Button onClick={() => setGoAddQuestion(true)} variant="contained" size="small">Edit question</Button>&nbsp;
       <Button onClick={() => setGoAddQuestion(true)} variant="contained" size="small">Add new question</Button>
     </div>
   );
