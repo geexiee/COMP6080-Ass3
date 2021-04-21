@@ -8,8 +8,8 @@ const Header = () => {
     <Navbar bg="light" variant="light">
       <Navbar.Brand><Link to="/">Home</Link></Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link><Link to="/login">Login</Link></Nav.Link>
-        <Nav.Link><Link to="/register">Register</Link></Nav.Link>
+        <Nav style={{ padding: 10 }}><Link to="/login">Login</Link></Nav>
+        <Nav style={{ padding: 10 }}><Link to="/register">Register</Link></Nav>
       </Nav>
     </Navbar>
   );

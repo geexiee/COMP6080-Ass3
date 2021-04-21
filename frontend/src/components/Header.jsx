@@ -11,12 +11,10 @@ const Header = () => {
     <Navbar bg="light" variant="light">
       <Navbar.Brand><Link to="/">Home</Link></Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link><Link to="/dashboard">Dashboard</Link></Nav.Link>
-        <Nav.Link><Link to="/join">Join Game</Link></Nav.Link>
+        <Nav style={{ padding: 10 }}><Link to="/dashboard">Dashboard</Link></Nav>
+        <Nav style={{ padding: 10 }}><Link to="/join">Join Game</Link></Nav>
       </Nav>
       <Form inline>
-        {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
-        {/* <Button variant="outline-primary">Search</Button> */}
         <Logout />
       </Form>
     </Navbar>
