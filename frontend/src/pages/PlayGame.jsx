@@ -176,7 +176,8 @@ const PlayGame = () => {
 
   const useStyles = makeStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: '90%',
+      margin: '10px 5% 0px',
     },
   });
   const classes = useStyles();
@@ -201,7 +202,7 @@ const PlayGame = () => {
           <CardMedia
             component="img"
             alt="random image"
-            height="140"
+            height="250"
             image={currentQuestionObject.imgURL}
             title="Bonus pic"
           />

@@ -23,6 +23,8 @@ const StyledTableRow = withStyles((theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
+    width: '90%',
+    margin: '0 5%',
   },
 }))(TableRow);
 
@@ -41,8 +43,6 @@ const rows = [
 const useStyles = makeStyles({
   table: {
     minWidth: 350,
-    width: '90%',
-    margin: '0 5%',
   },
 });
 

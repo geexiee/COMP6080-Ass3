@@ -34,7 +34,8 @@ const GameResult = () => {
 
   // for table of top 5 users and their score
   // const topResults = (results) => {
-
+  //   need to map through the objects and DIY array then save that array brrr
+  //   then sort them by correct answers to get the top 5
   // }
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const GameResult = () => {
       <h2>Game {params.sid} Results</h2>
       {/* <Chart /> */}
       <Table />
+      <br />
       <h5>Once the screen loads, it should display the following:</h5>
       <ul>
         <li>Table of up to top 5 users and their score</li>

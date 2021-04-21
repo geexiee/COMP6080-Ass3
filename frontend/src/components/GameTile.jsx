@@ -13,8 +13,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Modal from '@material-ui/core/Modal';
 
 const GameTile = (props) => {
-  const { ID, name, owner, img } = props;
+  const { ID: gameID, name, owner, img } = props;
   const [goEditGame, setGoEditGame] = React.useState(false);
+  const [goResults, setGoResults] = React.useState(false);
   const [openStart, setOpenStart] = React.useState(false);
   const [openRes, setOpenRes] = React.useState(false);
   const [sessionID, setSessionID] = React.useState('');
@@ -32,12 +33,8 @@ const GameTile = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
 
-  if (goEditGame) {
-    return <Redirect to={generatePath('/edit/:id', { id: ID })} />
-  }
-
-  const deleteGame = async (ID) => {
-    const response = await axios.delete(`http://localhost:5005/admin/quiz/${ID}`, {
+  const deleteGame = async (gameID) => {
+    const response = await axios.delete(`http://localhost:5005/admin/quiz/${gameID}`, {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -48,44 +45,44 @@ const GameTile = (props) => {
     }
   }
 
-  const startGame = async (ID) => {
-    const response = await axios.post(`http://localhost:5005/admin/quiz/${ID}/start`, '', {
+  const startGame = async (gameID) => {
+    const response = await axios.post(`http://localhost:5005/admin/quiz/${gameID}/start`, '', {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('Game Started!', ID);
+      console.log('Game Started!', gameID);
     }
   }
 
-  const advanceGame = async (ID) => {
-    const response = await axios.post(`http://localhost:5005/admin/quiz/${ID}/advance`, '', {
+  const advanceGame = async (gameID) => {
+    const response = await axios.post(`http://localhost:5005/admin/quiz/${gameID}/advance`, '', {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('Game Advanced!', ID);
+      console.log('Game Advanced!', gameID);
     }
   }
 
-  const stopGame = async (ID) => {
-    const response = await axios.post(`http://localhost:5005/admin/quiz/${ID}/end`, '', {
+  const stopGame = async (gameID) => {
+    const response = await axios.post(`http://localhost:5005/admin/quiz/${gameID}/end`, '', {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('Game Stopped!', ID);
+      console.log('Game Stopped!', gameID);
     }
   }
 
   const getSessionId = async () => {
-    const response = await axios.get(`http://localhost:5005/admin/quiz/${ID}`, {
+    const response = await axios.get(`http://localhost:5005/admin/quiz/${gameID}`, {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -157,17 +154,25 @@ const GameTile = (props) => {
         }}>📋</div></IconButton>
       </p>
       <Button variant="outlined" onClick={ () => {
-        console.log('Stop game: ', ID);
-        stopGame(ID);
+        console.log('Stop game: ', gameID);
+        stopGame(gameID);
         handleCloseStart();
         handleOpenRes();
       }}>Stop Game</Button>&nbsp;
       <Button variant="outlined" onClick={ () => {
-        console.log('Advance game: ', ID);
-        advanceGame(ID);
+        console.log('Advance game: ', gameID);
+        advanceGame(gameID);
       }}>Advance Game</Button>
     </div>
   );
+
+  if (goEditGame) {
+    return <Redirect to={generatePath('/edit/:id', { id: gameID })} />
+  }
+
+  if (goResults) {
+    return <Redirect to={generatePath('/results/:id', { id: sessionID })} />
+  }
 
   const bodyRes = (
     <div style={modalStyle} className={classes.paper}>
@@ -175,7 +180,7 @@ const GameTile = (props) => {
       <p id="simple-modal-description">Would you like to view the results?</p>
       <Button color="primary" onClick={ () => {
         console.log('gang');
-        // redirect to res page /results/${sessionID}
+        setGoResults(true);
       }}>Yes</Button>
       <Button onClick={ () => handleCloseRes() }>No</Button>
     </div>
@@ -185,7 +190,7 @@ const GameTile = (props) => {
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Game ID: {ID}
+          Game ID: {gameID}
         </Typography>
         <Typography variant="h5" component="h2">
           Game Name: {name}
@@ -195,10 +200,10 @@ const GameTile = (props) => {
         </Typography>
         <Typography variant="body2" component="p">
           <Button variant="outlined" size="small" onClick={() => setGoEditGame(true)}>Edit Game</Button>&nbsp;
-          <Button variant="outlined" color="secondary" size="small" onClick={() => deleteGame(ID)}>Delete Game</Button><br /><br />
+          <Button variant="outlined" color="secondary" size="small" onClick={() => deleteGame(gameID)}>Delete Game</Button><br /><br />
           <Button variant="contained" size="small" color="primary"
             onClick={() => {
-              startGame(ID);
+              startGame(gameID);
               handleOpenStart();
               getSessionId();
             }}>Start Game</Button>
