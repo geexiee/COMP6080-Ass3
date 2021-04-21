@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-// import { Redirect } from 'react-router';
 import Header from '../components/Header.jsx';
 import Button from '@material-ui/core/Button';
 import { useParams } from 'react-router';
-// import AnswerCard from '../components/AnswerCard.jsx'
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import { CardHeader } from '@material-ui/core';
 
 const PlayGame = () => {
   const calculateTimeLeft = (currentTimeLeft) => {
@@ -14,59 +19,105 @@ const PlayGame = () => {
 
   const params = useParams();
   const pid = params.pid;
-  const [question, setQuestion] = React.useState('');
-  const [answers, setAnswers] = React.useState([]);
-  const [time, setTime] = React.useState(0);
-  const [video, setVideo] = React.useState('');
-  const [img, setImg] = React.useState('');
+  const [currentQuestionObject, setCurrentQuestionObject] = React.useState('');
+  const [time, setTime] = React.useState(-1);
+  const [selectedAnswers, setSelectedAnswers] = React.useState([]);
+  const [correctAnswers, setCorrectAnswers] = React.useState([]);
+  const [gameStatus, setGameStatus] = React.useState('wait');
+  const [playerResults, setPlayerResults] = React.useState([])
 
+  // checking if game has started (get out of waiting room)
   useEffect(() => {
-    getQuestion(pid);
-  }, []);
-
-  useEffect(() => {
-    if (time > 0) {
-      setTimeout(() => {
-        // console.log(answers, typeof (answers));
-        setTime(calculateTimeLeft(time));
+    let interval = 0;
+    if (gameStatus === 'wait') {
+      interval = setInterval(() => {
+        setStatus(pid);
       }, 1000);
     }
+    return () => clearInterval(interval);
   });
 
-  const getStatus = async (pid) => {
+  // sets gameStatus to 'question' if the game has started (get out of waiting room)
+  const setStatus = async (pid) => {
+    console.log('aaaaaaa');
     const response = await axios.get(`http://localhost:5005/play/${pid}/status`)
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
-      console.log(response.data.started);
+      if (response.data.started) {
+        console.log('host has started the game, gamestatus set to question');
+        setGameStatus('question');
+      }
     }
   }
 
-  const getQuestion = async (pid) => {
+  // when game status changes to question, set the current question
+  // when game status changes to answer, set the current answer
+  useEffect(() => {
+    console.log('whats teh game status sir')
+    if (gameStatus === 'question') {
+      getCurrentQuestion(pid);
+    } else if (gameStatus === 'answer') {
+      getAns(pid)
+    } else if (gameStatus === 'finished') {
+      getGameResults(pid);
+    }
+  }, [gameStatus]);
+
+  // update the time remaining on the question
+  useEffect(() => {
+    if (gameStatus === 'question') {
+      if (time > 0) {
+        setTimeout(() => {
+          setTime(calculateTimeLeft(time));
+        }, 1000);
+      }
+      if (time === 0) {
+        setGameStatus('answer');
+      }
+    }
+  });
+
+  // every second, checks if the host has advanced the question (check current q)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (gameStatus === 'question' || (gameStatus === 'answer')) {
+        getCurrentQuestion(pid);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
+  const getGameResults = async (pid) => {
+    console.log('getting results');
+    const response = await axios.get(`http://localhost:5005/play/${pid}/results`)
+      .catch(e => console.log(e.message));
+    if (response !== undefined && response.status === 200) {
+      const results = [];
+      response.data.forEach(questionResult => {
+        if (questionResult.correct === true) {
+          results.push('Correct!');
+        } else {
+          results.push('Wrong!');
+        }
+      });
+      setPlayerResults(results);
+    }
+  }
+
+  const getCurrentQuestion = async (pid) => {
     const response = await axios.get(`http://localhost:5005/play/${pid}/question`)
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
       const questionObject = response.data.question;
-      console.log('question object is: ', questionObject, 'type: ', typeof (questionObject));
-      console.log('answerlist is: ', questionObject.answerList, 'type: ', typeof (questionObject.answerList));
-      // const ansArray = [];
-      // for (const i in questionObject.answerList) {
-      //   ansArray.push(questionObject.answerList[i]);
-      // }
-      // console.log('answer array is: ', ansArray, 'type is: ', typeof (ansArray));
-      // setAnswers(questionObject.answerList);
-      // console.log(questionObject.answerList);
-      setQuestion(questionObject.question);
-      // console.log(ansArray);
-      setAnswers(questionObject.answerList);
-      // answers.forEach(a => console.log(a));
-      setTime(Number(questionObject.timeLimit));
-      setVideo(questionObject.videoURL);
-      setImg(questionObject.imageURL);
-      // questionObject.answerList.forEach(answer => {
-      //   console.log(answer);
-      // })
-      console.log(answers);
-      console.log(questionObject.answerList, typeof (questionObject.answerList));
+      if (questionObject.id !== currentQuestionObject.id) { // question has changed!
+        setGameStatus('question');
+        setSelectedAnswers([]);
+        setTime(questionObject.timeLimit);
+      }
+      setCurrentQuestionObject(questionObject);
+    } else { // no longer getting valid question, so the game must be over
+      // request the results
+      setGameStatus('finished');
     }
   }
 
@@ -74,51 +125,117 @@ const PlayGame = () => {
     const response = await axios.get(`http://localhost:5005/play/${pid}/answer`)
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
-      console.log(response.data.answerIds);
+      const correctAnswerList = response.data.answerIds;
+      const finalCorrectAnswerList = [];
+      currentQuestionObject.answerList.forEach(answerOption => {
+        if (correctAnswerList.includes(answerOption.id)) {
+          const correctAnswerObject = {
+            id: answerOption.id,
+            answer: answerOption.answer
+          }
+          finalCorrectAnswerList.push(correctAnswerObject);
+        }
+      });
+      setCorrectAnswers(finalCorrectAnswerList);
     }
   }
 
-  const submitAns = async (pid) => {
-    const response = await axios.put(`http://localhost:5005/play/${pid}/answer`, {
-      answerIds: [0]
-    }).catch(e => console.log(e.message));
-    if (response !== undefined && response.status === 200) {
-      console.log(response);
+  const submitAns = async (pid, currSubmitAnsObj) => {
+    let submitAnswerIds = [];
+    if (currentQuestionObject.questionType === 'Multiple Choice') {
+      // adding the selected answer to the answerlist or removing if its already there
+      if (!(selectedAnswers.includes(currSubmitAnsObj))) {
+        selectedAnswers.forEach(answer => {
+          submitAnswerIds.push(answer.id);
+        });
+        submitAnswerIds.push(currSubmitAnsObj.id);
+        setSelectedAnswers([...selectedAnswers, currSubmitAnsObj]);
+      } else {
+        const index = selectedAnswers.indexOf(currSubmitAnsObj);
+        if (index > -1) {
+          selectedAnswers.splice(index, 1);
+          submitAnswerIds = [...selectedAnswers];
+        }
+      }
+      const response = await axios.put(`http://localhost:5005/play/${pid}/answer`, {
+        answerIds: submitAnswerIds
+      }).catch(e => console.log(e.message));
+      if (response !== undefined && response.status === 200) {
+        console.log(response);
+      }
+    } else { // single choice question so we just send the id through by itself
+      const response = await axios.put(`http://localhost:5005/play/${pid}/answer`, {
+        answerIds: [currSubmitAnsObj.id]
+      }).catch(e => console.log(e.message));
+      if (response !== undefined && response.status === 200) {
+        console.log(response);
+        setSelectedAnswers([currSubmitAnsObj]);
+      }
     }
   };
 
-  const getRes = async (pid) => {
-    const response = await axios.put(`http://localhost:5005/play/${pid}/results`, {
-      answerIds: [0]
-    }).catch(e => console.log(e.message));
-    if (response !== undefined && response.status === 200) {
-      console.log(response);
-    }
-  };
+  const useStyles = makeStyles({
+    root: {
+      maxWidth: 345,
+    },
+  });
+  const classes = useStyles();
+
   return (
     <div>
       <Header />
-      <h2>Play Game :)</h2>
-      <h2>{question}</h2>
-      {answers.map(answer => (
-        <p key = {answer.id}>{answer.answer}</p>
-      ))}
-      {/* <AnswerCard answer={answer[0].answer}></AnswerCard> */}
-      {/* {answers.forEach(answer => {
-        return (
-          <div>{answer}</div>
-        );
-      })} */}
-      {/* {answers}<br /> */}
-      time: {time}<br />
-      video link: {video}<br />
-      image link: {img}<br />
-      <Button variant="contained" color="primary" onClick={() => getStatus(pid)}>Get status</Button><br />
-      <Button variant="contained" color="primary" onClick={() => getQuestion(pid)}>Get question</Button><br />
-      <Button variant="contained" color="primary" onClick={() => getAns(pid)}>Get answer</Button><br />
-      <Button variant="contained" color="primary" onClick={() => submitAns(pid)}>Submit answer</Button><br />
-      <Button variant="contained" color="primary" onClick={() => getRes(pid)}>Get results</Button><br />
-      player id: <p>{pid}</p>
+      {(gameStatus === 'wait') &&
+        <div>WAITING FOR HOST TO START GAME</div>
+      }
+
+      {(currentQuestionObject !== '') && (gameStatus === 'question') &&
+        <Card className={classes.root}>
+        <CardContent>
+          <CardHeader title={`Question: ${currentQuestionObject.question}`} subheader={`Question Type: ${currentQuestionObject.questionType}`}></CardHeader>
+          <p>Time Remaining: {time}</p>
+          <p>video link: {currentQuestionObject.videoURL}</p>
+          <p>image link: {currentQuestionObject.imgURL}</p>
+        </CardContent>
+        {(currentQuestionObject.imgURL !== '') &&
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            alt="random image"
+            height="140"
+            image={currentQuestionObject.imgURL}
+            title="Bonus pic"
+          />
+        </CardActionArea>}
+        <CardActions>
+          {currentQuestionObject.answerList.map(answerOption => (
+            <Button key={answerOption.id} size="small" color="primary" variant="contained"
+            onClick={() => submitAns(pid, answerOption)}
+            >{answerOption.answer}</Button>
+          ))}
+        </CardActions>
+      </Card>}
+
+      {(gameStatus === 'answer') &&
+        <div>
+        <h2>Correct Answers!</h2>
+        {correctAnswers.map(correctAnswer => (
+          <p key={correctAnswer.id}>{correctAnswer.answer}</p>
+        ))}
+        <h2>Your Answers!</h2>
+        {selectedAnswers.map(selectedAnswer => (
+          <p key={selectedAnswer.id}>{selectedAnswer.answer}</p>
+        ))}
+      </div>}
+
+      {(gameStatus === 'finished') &&
+        <div>
+          <h2>Game over! The host has ended the game!</h2>
+          {playerResults.map((questionResult, index) => (
+            <div key={index}>
+              <p>Question: {index}, Result: {questionResult}</p>
+            </div>
+          ))}
+        </div>}
     </div>
   );
 }
