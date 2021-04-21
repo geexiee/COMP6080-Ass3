@@ -161,8 +161,8 @@ const GameTile = (props) => {
         stopGame(ID);
         handleCloseStart();
         handleOpenRes();
-      }}>Stop Game</Button>
-      <Button onClick={ () => {
+      }}>Stop Game</Button>&nbsp;
+      <Button variant="outlined" onClick={ () => {
         console.log('Advance game: ', ID);
         advanceGame(ID);
       }}>Advance Game</Button>
