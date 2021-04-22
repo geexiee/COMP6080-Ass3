@@ -57,6 +57,17 @@ context('Happy path', () => {
     cy.get('button[id=stopGameButton]')
       .click();
 
+    // click view results
+    cy.get('button[name=yesButtonViewResults]')
+      .click();
+    
+    // check we're on the results page
+    cy.location('pathname').should('match', /results\/\d+/);
+
+    // navigate back to dashboard
+    cy.get('a[href="/dashboard"')
+      .click()
+
     // modal should no longer be there
     cy.get('h2[id="gameModalTitle"]')
     .should('not.exist');
