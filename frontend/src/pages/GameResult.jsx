@@ -62,7 +62,7 @@ const GameResult = () => {
         i++;
       })
     })
-  
+
     // Calculate percentage each question has been answered correctly
     setPercentPerQuestion(correctPerQuestion.map((i) => i / numPlayers * 100));
 

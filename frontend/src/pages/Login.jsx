@@ -13,7 +13,6 @@ const Login = () => {
 
   // Input validation along with backend admin login request
   const loginUser = async () => {
-  
     // Input validation
     if (email === '') {
       alert('Please enter an email');
@@ -21,7 +20,7 @@ const Login = () => {
     if (password === '') {
       alert('Please enter a password');
     }
-  
+
     // Send backend request to log in
     const response = await axios.post('http://localhost:5005/admin/auth/login', {
       email,

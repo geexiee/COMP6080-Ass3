@@ -15,7 +15,6 @@ const Register = () => {
 
   // Input validation along with backend register new admin request
   const registerUser = async () => {
-
     // Input validation
     if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
       alert('Please enter a valid email');

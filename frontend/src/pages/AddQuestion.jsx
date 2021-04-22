@@ -260,7 +260,6 @@ const AddQuestion = () => {
       </div>
     </div>
   );
-
 };
 
 export default AddQuestion;

@@ -83,7 +83,6 @@ const EditQuestion = () => {
     }
   }
 
-
   // Generates list of answers and checks for valid input
   const submitQuestion = async (question, questionType, timeLimit, points, image, videoURL) => {
     if (answer1 !== '') {
