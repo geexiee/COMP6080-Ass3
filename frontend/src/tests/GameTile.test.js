@@ -13,13 +13,13 @@ const testQuizDetails = {
 describe('GameTile testing', () => {
   it('has a specified game name', () => {
     const card = shallow(
-    <GameTile
-      ID={testQuizDetails.ID}
-      name={testQuizDetails.name}
-      owner={testQuizDetails.owner}
-      img={testQuizDetails.img}
-    />
-  );
+      <GameTile
+        ID={testQuizDetails.ID}
+        name={testQuizDetails.name}
+        owner={testQuizDetails.owner}
+        img={testQuizDetails.img}
+      />
+    );
     // check the game name matches the prop
     expect(card.find('#gameName').prop('children')).toContain(testQuizDetails.name);
   });

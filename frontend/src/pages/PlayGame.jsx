@@ -10,7 +10,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { CardHeader } from '@material-ui/core';
-import Confetti from 'react-confetti'
+import Confetti from 'react-confetti';
+import ReactPlayer from 'react-player';
 
 // User play game page function
 const PlayGame = () => {
@@ -204,7 +205,7 @@ const PlayGame = () => {
       textAlign: 'center',
       borderRadius: '5px',
       boxShadow: '0.5px 0.5px',
-      WebkitTextStroke: '0.6px black',
+      WebkitTextStroke: '0.9px black',
       WebkitTextFillColor: 'white',
       background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,0.7838768115942029) 50%, rgba(252,176,69,1) 100%)',
     }
@@ -224,10 +225,13 @@ const PlayGame = () => {
       {(currentQuestionObject !== '') && (gameStatus === 'question') &&
         <Card className={classes.root}>
         <CardContent>
-          <CardHeader title={`Question: ${currentQuestionObject.question}`} subheader={`Question Type: ${currentQuestionObject.questionType}`}></CardHeader>
+          <CardHeader
+            title={`Question: ${currentQuestionObject.question}`}
+            subheader={`Question Type: ${currentQuestionObject.questionType}`}
+          ></CardHeader>
           <p>Time Remaining: {time}</p>
-          <p>video link: {currentQuestionObject.videoURL}</p>
           <p>image link: {currentQuestionObject.imgURL}</p>
+          <ReactPlayer url={currentQuestionObject.videoURL} />
         </CardContent>
         {(currentQuestionObject.imgURL !== '') &&
         <CardActionArea>

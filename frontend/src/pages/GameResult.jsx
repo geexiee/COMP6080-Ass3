@@ -172,7 +172,8 @@ const GameResult = () => {
 
   const useStyles = makeStyles({
     page: {
-      margin: '0 5%',
+      margin: 'auto',
+      width: '90%',
       maxWidth: 1200,
     },
     title: {
