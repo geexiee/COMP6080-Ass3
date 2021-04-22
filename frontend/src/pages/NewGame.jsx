@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
 const NewGame = () => {
   const [name, setName] = React.useState('');
   const [file, setFile] = React.useState('');
-  const [goDashboard, setGoDashboard] = React.useState(false);
+  const [goBack, setGoBack] = React.useState(false);
 
   const handleCreateNewGame = async () => {
     let response = await axios.get('http://localhost:5005/admin/quiz', {
@@ -31,11 +31,11 @@ const NewGame = () => {
       } else {
         alert('No file uploaded, thats cool :) A new empty game has been created!')
       }
-      setGoDashboard(true);
+      setGoBack(true);
     }
   }
 
-  if (goDashboard) {
+  if (goBack) {
     return <Redirect to="/dashboard" />
   }
 

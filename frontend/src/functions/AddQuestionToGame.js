@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const AddQuestionToGame = async (gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList) => {
+export const AddQuestionToGame = async (gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList, setGoBack) => {
   const oldQuestionIdList = [];
   // Fetch current quiz data so we can add the new question
   let response = await axios.get(`http://localhost:5005/admin/quiz/${gid}`, {
@@ -48,6 +48,7 @@ export const AddQuestionToGame = async (gid, question, questionType, timeLimit, 
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       alert('successfully added question :~D');
+      setGoBack(true);
     }
   }
 }

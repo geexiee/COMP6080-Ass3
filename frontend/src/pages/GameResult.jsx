@@ -18,9 +18,11 @@ const GameResult = () => {
   // const [results, setResults] = React.useState([]);
   // const [numPlayers, setNumPlayers] = React.useState(Number);
   const [numQuestions, setNumQuestions] = React.useState(Number);
-  const [percentPerQuestion, setPercentPerQuestion] = React.useState(Number);
-  const [averageTime, setAverageTime] = React.useState(Number);
+  const [percentPerQuestion, setPercentPerQuestion] = React.useState(Array);
+  const [averageTime, setAverageTime] = React.useState(Array);
   const [topPlayers, setTopPlayers] = React.useState([]);
+  // let percentPerQuestion = [];
+  // let averageTime = [];
 
   // Get response time for a particular question
   const responseTime = (startTime, answerTime) => {
@@ -31,15 +33,20 @@ const GameResult = () => {
 
   // Analyse data to generate info for graphs
   const analyseResults = (results, numPlayers) => {
+    if (results.length === 0) return;
     console.log(results);
-    const correctPerQuestion = Array(numQuestions).fill(0);
-    const totalTimePerQuestion = Array(numQuestions).fill(0);
+    console.log(results[0].answers.length);
+    setNumQuestions(results[0].answers.length);
+    console.log(numQuestions);
+    const correctPerQuestion = new Array(results[0].answers.length).fill(0);
+    console.log(correctPerQuestion);
+    const totalTimePerQuestion = new Array(results[0].answers.length).fill(0);
+    console.log(totalTimePerQuestion);
     const playerScores = {};
 
-    if (results.length === 0) return;
     results.forEach(user => {
       playerScores[user.name] = 0;
-      setNumQuestions(user.answers.length);
+      // setNumQuestions(user.answers.length);
       let i = 0;
       (user.answers).forEach(answer => {
         totalTimePerQuestion[i] += responseTime(answer.questionStartedAt, answer.answeredAt)
@@ -53,11 +60,13 @@ const GameResult = () => {
     console.log(correctPerQuestion);
     console.log('%', correctPerQuestion.map((i) => i / numPlayers * 100));
     // Calculate percentage each question has been answered correctly
+    // percentPerQuestion = correctPerQuestion.map((i) => i / numPlayers * 100);
     setPercentPerQuestion(correctPerQuestion.map((i) => i / numPlayers * 100));
 
     console.log(totalTimePerQuestion);
     console.log('time', totalTimePerQuestion.map((i) => i / numPlayers));
     // Calculate average response time per question
+    // averageTime = totalTimePerQuestion.map((i) => i / numPlayers);
     setAverageTime(totalTimePerQuestion.map((i) => i / numPlayers));
 
     // Calculate top 5 results

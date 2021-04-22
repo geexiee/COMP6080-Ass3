@@ -7,6 +7,7 @@ import { AddQuestionToGame } from '../functions/AddQuestionToGame.js'
 
 const AddQuestion = () => {
   const params = useParams();
+  const [goBack, setGoBack] = React.useState(false);
   const [question, setQuestion] = React.useState('');
   const [questionType, setQuestionType] = React.useState('');
   const [timeLimit, setTimeLimit] = React.useState(-1);
@@ -151,9 +152,12 @@ const AddQuestion = () => {
       return;
     }
 
-    AddQuestionToGame(params.gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList);
+    AddQuestionToGame(params.gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList, setGoBack);
   }
 
+  if (goBack) {
+    // redirect
+  }
   return (
     <div className="AddQuestionForm">
       <Header />
