@@ -179,7 +179,6 @@ const GameTile = (props) => {
       <h2 id="simple-modal-title">Game Stopped</h2>
       <p id="simple-modal-description">Would you like to view the results?</p>
       <Button name="yesButtonViewResults" color="primary" onClick={ () => {
-        console.log('gang');
         setGoResults(true);
       }}>Yes</Button>
       <Button onClick={ () => handleCloseRes() }>No</Button>
