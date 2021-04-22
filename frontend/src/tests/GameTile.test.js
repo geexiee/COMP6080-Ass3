@@ -19,7 +19,7 @@ describe('GameTile testing', () => {
       owner={testQuizDetails.owner}
       img={testQuizDetails.img}
     />
-  );
+    );
     // check the game name matches the prop
     expect(card.find('#gameName').prop('children')).toContain(testQuizDetails.name);
   });

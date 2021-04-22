@@ -49,7 +49,7 @@ const NewGame = () => {
   return (
     <div>
       <Header />
-      <h2>New Game</h2>
+      <h2 id="newGameHeader">New Game</h2>
       <TextField name="gameName" id="standard-basic" type="email" label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
       <div>
         <p>Upload Game (optional, .json files only)</p>
