@@ -5,10 +5,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Input } from '@material-ui/core';
 import { ReadFile } from '../functions/ReadFile.js'
+import { Redirect } from 'react-router-dom';
 
 const NewGame = () => {
   const [name, setName] = React.useState('');
   const [file, setFile] = React.useState('');
+  const [goBack, setGoBack] = React.useState(false);
 
   const handleCreateNewGame = async () => {
     let response = await axios.get('http://localhost:5005/admin/quiz', {
@@ -29,7 +31,12 @@ const NewGame = () => {
       } else {
         alert('No file uploaded, thats cool :) A new empty game has been created!')
       }
+      setGoBack(true);
     }
+  }
+
+  if (goBack) {
+    return <Redirect to="/dashboard" />
   }
 
   return (

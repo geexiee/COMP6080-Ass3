@@ -14,12 +14,11 @@ import Paper from '@material-ui/core/Paper';
 
 const GameResult = () => {
   const params = useParams();
-  const [results, setResults] = React.useState([]);
-  const [numPlayers, setNumPlayers] = React.useState(Number);
   const [numQuestions, setNumQuestions] = React.useState(Number);
-  const [percentPerQuestion, setPercentPerQuestion] = React.useState(Number);
-  const [averageTime, setAverageTime] = React.useState(Number);
-  const [topPlayers, setTopPlayers] = React.useState([]);
+  const [numPlayers, setNumPlayers] = React.useState(Number);
+  const [percentPerQuestion, setPercentPerQuestion] = React.useState(Array);
+  const [averageTime, setAverageTime] = React.useState(Array);
+  const [topPlayers, setTopPlayers] = React.useState(Array);
 
   // Get results for a particular game session
   const getResults = async () => {
@@ -30,9 +29,8 @@ const GameResult = () => {
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      setResults(response.data.results);
       setNumPlayers(response.data.results.length);
-      analyseResults();
+      analyseResults(response.data.results, response.data.results.length);
     }
   }
 
@@ -44,15 +42,15 @@ const GameResult = () => {
   }
 
   // Analyse data to generate info for graphs
-  const analyseResults = () => {
-    const correctPerQuestion = Array(numQuestions).fill(0);
-    const totalTimePerQuestion = Array(numQuestions).fill(0);
+  const analyseResults = (results, numPlayers) => {
+    if (results.length === 0) return;
+    setNumQuestions(results[0].answers.length);
+    const correctPerQuestion = new Array(results[0].answers.length).fill(0);
+    const totalTimePerQuestion = new Array(results[0].answers.length).fill(0);
     const playerScores = {};
 
-    if (results.length === 0) return;
     results.forEach(user => {
       playerScores[user.name] = 0;
-      setNumQuestions(user.answers.length);
       let i = 0;
       (user.answers).forEach(answer => {
         totalTimePerQuestion[i] += responseTime(answer.questionStartedAt, answer.answeredAt)
@@ -63,7 +61,6 @@ const GameResult = () => {
         i++;
       })
     })
-
     // Calculate percentage each question has been answered correctly
     setPercentPerQuestion(correctPerQuestion.map((i) => i / numPlayers * 100));
 
@@ -79,7 +76,6 @@ const GameResult = () => {
         name: item[0],
         score: item[1],
       };
-      console.log(topPlayers);
       return topPlayers;
     })
     setTopPlayers(topPlayers);
@@ -91,10 +87,6 @@ const GameResult = () => {
       y: {
         beginAtZero: true
       }
-    },
-    title: {
-      display: true,
-      text: 'Breakdown of correct question responses'
     },
     tooltips: {
       callbacks: {
@@ -111,10 +103,6 @@ const GameResult = () => {
       y: {
         beginAtZero: true
       }
-    },
-    title: {
-      display: true,
-      text: 'Average question response time'
     },
     tooltips: {
       callbacks: {
@@ -177,12 +165,17 @@ const GameResult = () => {
       '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
       },
-      width: '90%',
-      margin: '0 5%',
     },
   }))(TableRow);
 
   const useStyles = makeStyles({
+    page: {
+      margin: '0 5%',
+      maxWidth: 1200,
+    },
+    title: {
+      textAlign: 'center',
+    },
     table: {
       minWidth: 350,
     },
@@ -191,35 +184,47 @@ const GameResult = () => {
 
   useEffect(() => {
     getResults();
-  });
+  }, []);
 
   return (
     <div>
       <Header />
       <h2>Game {params.sid} Results</h2>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Rank</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Score</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {topPlayers.map((row, idx) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell>{idx + 1}</StyledTableCell>
-                <StyledTableCell>{row.name}</StyledTableCell>
-                <StyledTableCell>{row.score}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Table /><br />
-      <Bar className="contents" data={barData} options={barOptions} /><br />
-      <Line className="contents" data={lineData} options={lineOptions} />
+      {(numPlayers === 0 || numQuestions === 0) &&
+        <h4>No results to display</h4>}
+      {(numPlayers > 0 && numQuestions > 0) &&
+        (
+          <div>
+          <div className={classes.page}>
+            <h4 className={classes.title}>Player Leaderboard</h4>
+            <TableContainer component={Paper}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Rank</StyledTableCell>
+                    <StyledTableCell>Name</StyledTableCell>
+                    <StyledTableCell>Score</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {topPlayers.map((row, idx) => (
+                    <StyledTableRow key={row.name}>
+                      <StyledTableCell>{idx + 1}</StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.score}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Table /><br />
+            <h4 className={classes.title}>Breakdown of correct question responses</h4>
+            <Bar data={barData} options={barOptions} /><br />
+            <h4 className={classes.title}>Average question response time</h4>
+            <Line data={lineData} options={lineOptions} />
+          </div>
+          </div>
+        )}
     </div>
   );
 }

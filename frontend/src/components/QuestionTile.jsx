@@ -18,7 +18,8 @@ const QuestionTile = (props) => {
 
   const useStyles = makeStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: 350,
+      marginBottom: 10,
     },
     media: {
       maxHeight: 140,

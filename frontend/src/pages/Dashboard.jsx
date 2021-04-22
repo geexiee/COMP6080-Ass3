@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header.jsx';
-// import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
 import Button from '@material-ui/core/Button';
@@ -29,15 +28,17 @@ const Dashboard = () => {
   return (
     <div>
       <Header />
-      <h2>Dashboard</h2>
-      <Button name="createNewGameButton" variant="contained" color="primary"><Link to="/new" style={{ color: 'white' }}>Create New Game</Link></Button>
-      <div id="GameTileContainer">
-        {quizzes.map((quiz) => {
-          return (
-            <GameTile key={quiz.id} ID={quiz.id} owner={quiz.owner} name={quiz.name} img='https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png'/> // pass onclick as a prop, hardcoded img for now xd
-          )
-        }
-        )}
+      <div className="PageBody">
+        <h2>Dashboard</h2>
+        <Button name="createNewGameButton" variant="contained" color="primary"><Link to="/new" style={{ color: 'white' }}>Create New Game</Link></Button>
+        <div id="GameTileContainer">
+          {quizzes.map((quiz) => {
+            return (
+              <GameTile key={quiz.id} ID={quiz.id} owner={quiz.owner} name={quiz.name} img='https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png'/> // pass onclick as a prop, hardcoded img for now xd
+            )
+          }
+          )}
+        </div>
       </div>
     </div>
   );

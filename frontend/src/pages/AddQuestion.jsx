@@ -1,12 +1,14 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useParams, generatePath } from 'react-router';
 import { Checkbox, Select, TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
 import Header from '../components/Header.jsx';
 import uuid from 'react-uuid';
 import { AddQuestionToGame } from '../functions/AddQuestionToGame.js'
+import { Redirect } from 'react-router-dom';
 
 const AddQuestion = () => {
   const params = useParams();
+  const [goBack, setGoBack] = React.useState(false);
   const [question, setQuestion] = React.useState('');
   const [questionType, setQuestionType] = React.useState('');
   const [timeLimit, setTimeLimit] = React.useState(-1);
@@ -151,9 +153,12 @@ const AddQuestion = () => {
       return;
     }
 
-    AddQuestionToGame(params.gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList);
+    AddQuestionToGame(params.gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList, setGoBack);
   }
 
+  if (goBack) {
+    return <Redirect to={generatePath('/edit/:id', { id: params.gid })} />
+  }
   return (
     <div className="AddQuestionForm">
       <Header />

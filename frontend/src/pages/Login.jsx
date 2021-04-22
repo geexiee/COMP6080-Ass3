@@ -11,7 +11,12 @@ const Login = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const loginUser = async () => {
-    console.log(email, password);
+    if (email === '') {
+      alert('Please enter an email');
+    }
+    if (password === '') {
+      alert('Please enter a password');
+    }
     const response = await axios.post('http://localhost:5005/admin/auth/login', {
       email,
       password
@@ -20,7 +25,7 @@ const Login = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       }
-    }).catch(e => console.log(e.response.data.error));
+    }).catch(e => alert(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       console.log(response.data.token);
       localStorage.setItem('token', response.data.token);
@@ -28,6 +33,7 @@ const Login = () => {
     }
   };
 
+  // Show user the dashboard after logging in successfully
   if (loggedIn) {
     return <Redirect to="/dashboard" />;
   }
@@ -35,10 +41,12 @@ const Login = () => {
   return (
     <div>
       <Header />
-      <h2>Login</h2>
-      <TextField name="loginEmail" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
-      <TextField name="loginPassword" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
-      <Button name="loginButton" variant="contained" color="primary" onClick={loginUser}>Login</Button>
+      <div className="PageBody">
+        <h2>Login</h2>
+        <TextField name="loginEmail" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+        <TextField name="loginPassword" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+        <Button name="loginButton" variant="contained" color="primary" onClick={loginUser}>Login</Button>
+      </div>
     </div>
   );
 }
