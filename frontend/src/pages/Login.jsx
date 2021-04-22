@@ -11,6 +11,12 @@ const Login = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const loginUser = async () => {
+    if (email === '') {
+      alert('Please enter an email');
+    }
+    if (password === '') {
+      alert('Please enter a password');
+    }
     const response = await axios.post('http://localhost:5005/admin/auth/login', {
       email,
       password
@@ -35,10 +41,12 @@ const Login = () => {
   return (
     <div>
       <Header />
-      <h2>Login</h2>
-      <TextField id="email" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
-      <TextField id="text" type="password" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
-      <Button variant="contained" color="primary" onClick={loginUser}>Login</Button>
+      <div className="PageBody">
+        <h2>Login</h2>
+        <TextField id="email" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+        <TextField id="text" type="password" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+        <Button variant="contained" color="primary" onClick={loginUser}>Login</Button>
+      </div>
     </div>
   );
 }

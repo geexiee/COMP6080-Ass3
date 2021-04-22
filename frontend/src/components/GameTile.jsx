@@ -93,7 +93,8 @@ const GameTile = (props) => {
     root: {
       minWidth: 275,
       width: 350,
-      margin: 10,
+      marginTop: 10,
+      marginRight: 10,
     },
     media: {
       height: 140,

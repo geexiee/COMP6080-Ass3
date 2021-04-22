@@ -38,18 +38,20 @@ const EditGame = () => {
   return (
     <div>
       <Header />
-      <h2>Game Name: {gameName}</h2>
-      <p>Game ID: {params.gid}</p>
-      <div id="QuestionTileDiv">
-        {questions.map((q) => {
-          console.log(q);
-          return (
-            <QuestionTile key={q.id} qid={q.id} question={q.question} timeLimit={q.timeLimit} points={q.points} imageURL={q.imageURL} gid={params.gid} videoURL={q.videoURL}/> // pass onclick as a prop, hardcoded img for now xd
-          );
-        }
-        )}
+      <div className="PageBody">
+        <h2>Game Name: {gameName}</h2>
+        <p>Game ID: {params.gid}</p>
+        <div id="QuestionTileDiv">
+          {questions.map((q) => {
+            console.log(q);
+            return (
+              <QuestionTile key={q.id} qid={q.id} question={q.question} timeLimit={q.timeLimit} points={q.points} imageURL={q.imageURL} gid={params.gid} videoURL={q.videoURL}/> // pass onclick as a prop, hardcoded img for now xd
+            );
+          }
+          )}
+        </div>
+        <Button onClick={() => setGoAddQuestion(true)} variant="contained" size="small">Add new question</Button>
       </div>
-      <Button onClick={() => setGoAddQuestion(true)} variant="contained" size="small">Add new question</Button>
     </div>
   );
 }

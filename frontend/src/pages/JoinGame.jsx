@@ -13,6 +13,9 @@ const JoinGame = () => {
   const [goPlay, setGoPlay] = React.useState(false);
 
   const joinGame = async (sid, name) => {
+    if (name === '') {
+      alert('Please enter a name');
+    }
     const response = await axios.post(`http://localhost:5005/play/join/${sid}`, { name })
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
@@ -31,11 +34,12 @@ const JoinGame = () => {
   return (
     <div>
       <Header />
-      <h2>Join Game</h2>
-      <TextField label="Session ID" onChange={e => setSID(e.target.value)} value={sid} /><br />
-      <TextField label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
-      <Button variant="contained" color="primary" onClick={() => joinGame(sid, name)}>Join Game</Button>
-      <p>{pid}</p>
+      <div className="PageBody">
+        <h2>Join Game</h2>
+        <TextField label="Session ID" onChange={e => setSID(e.target.value)} value={sid} /><br />
+        <TextField label="Name" onChange={e => setName(e.target.value)} value={name} /><br /><br />
+        <Button variant="contained" color="primary" onClick={() => joinGame(sid, name)}>Join Game</Button>
+      </div>
     </div>
   );
 }

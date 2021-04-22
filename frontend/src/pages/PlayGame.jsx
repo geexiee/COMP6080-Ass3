@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { CardHeader } from '@material-ui/core';
+import Confetti from 'react-confetti'
 
 const PlayGame = () => {
   const calculateTimeLeft = (currentTimeLeft) => {
@@ -179,6 +180,17 @@ const PlayGame = () => {
       maxWidth: '90%',
       margin: '10px 5% 0px',
     },
+    lobby: {
+      width: '90%',
+      margin: '5%',
+      padding: '10%',
+      textAlign: 'center',
+      borderRadius: '5px',
+      boxShadow: '0.5px 0.5px',
+      WebkitTextStroke: '0.6px black',
+      WebkitTextFillColor: 'white',
+      background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,0.7838768115942029) 50%, rgba(252,176,69,1) 100%)',
+    }
   });
   const classes = useStyles();
 
@@ -186,7 +198,10 @@ const PlayGame = () => {
     <div>
       <Header />
       {(gameStatus === 'wait') &&
-        <div>WAITING FOR HOST TO START GAME</div>
+        <div className={classes.lobby}>
+          <Confetti />
+          <h3>WAITING FOR HOST TO START GAME 😃</h3>
+        </div>
       }
 
       {(currentQuestionObject !== '') && (gameStatus === 'question') &&

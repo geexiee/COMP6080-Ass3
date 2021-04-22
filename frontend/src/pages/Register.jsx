@@ -12,6 +12,15 @@ const Register = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const registerUser = async () => {
+    if (email === '') {
+      alert('Please enter an email');
+    }
+    if (password === '') {
+      alert('Please enter a password');
+    }
+    if (name === '') {
+      alert('Please enter a name');
+    }
     console.log(email, password, name);
     const response = await axios.post('http://localhost:5005/admin/auth/register', {
       email,
@@ -33,11 +42,13 @@ const Register = () => {
   return (
     <div>
       <Header />
-      <h2>Register</h2>
-      <TextField id="name" type="text" label="Name" onChange={e => setName(e.target.value)} value={name} /><br />
-      <TextField id="email" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
-      <TextField id="password" type="password" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
-      <Button variant="contained" color="primary" onClick={registerUser}>Register</Button>
+      <div className="PageBody">
+        <h2>Register</h2>
+        <TextField id="name" type="text" label="Name" onChange={e => setName(e.target.value)} value={name} /><br />
+        <TextField id="email" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+        <TextField id="password" type="password" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+        <Button variant="contained" color="primary" onClick={registerUser}>Register</Button>
+      </div>
     </div>
   );
 }
