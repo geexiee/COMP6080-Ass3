@@ -25,7 +25,7 @@ Dashboard.test
 
 
 
-Integration Test - addQuestion.js (the one thats not the happy path)
+Integration Test - addQuestion.js (the one that's not the happy path)
 
 Rationale:
 Adding questions to a created quiz is a fundamental feature to this application. Without the ability to add questions, most of the other functionality for the application will be inaccessible. For example, without the ability to add questions, players can't play an actual game, admins cant get meaninful results, and the whole application basically becomes pointless. We chose this feature over editing or deleting questions because they all stem from adding questions.
