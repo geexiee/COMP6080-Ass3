@@ -12,6 +12,7 @@ import { generatePath } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { DeleteQuestion } from '../functions/DeleteQuestion'
 
+// Question tile displayed on the dashboard
 const QuestionTile = (props) => {
   const [goEditQuestion, setGoEditQuestion] = React.useState(false);
   const { qid, question, timeLimit, imageURL, points, gid, videoURL } = props;
@@ -28,6 +29,7 @@ const QuestionTile = (props) => {
 
   const classes = useStyles();
 
+  // Show user the edit question page for specified question
   if (goEditQuestion) {
     console.log(generatePath('/edit/:gid/:qid', { gid: gid, qid: qid }))
     return <Redirect to={generatePath('/edit/:gid/:qid', { gid: gid, qid: qid })} />

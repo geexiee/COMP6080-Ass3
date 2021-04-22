@@ -12,6 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { CardHeader } from '@material-ui/core';
 import Confetti from 'react-confetti'
 
+// User play game page function
 const PlayGame = () => {
   const calculateTimeLeft = (currentTimeLeft) => {
     currentTimeLeft = currentTimeLeft - 1;
@@ -27,7 +28,7 @@ const PlayGame = () => {
   const [gameStatus, setGameStatus] = React.useState('wait');
   const [playerResults, setPlayerResults] = React.useState([])
 
-  // checking if game has started (get out of waiting room)
+  // Checking if game has started (get out of waiting room)
   useEffect(() => {
     let interval = 0;
     if (gameStatus === 'wait') {
@@ -38,7 +39,7 @@ const PlayGame = () => {
     return () => clearInterval(interval);
   });
 
-  // sets gameStatus to 'question' if the game has started (get out of waiting room)
+  // Sets gameStatus to 'question' if the game has started (get out of waiting room)
   const setStatus = async (pid) => {
     console.log('aaaaaaa');
     const response = await axios.get(`http://localhost:5005/play/${pid}/status`)
@@ -51,8 +52,8 @@ const PlayGame = () => {
     }
   }
 
-  // when game status changes to question, set the current question
-  // when game status changes to answer, set the current answer
+  // When game status changes to question, set the current question
+  // When game status changes to answer, set the current answer
   useEffect(() => {
     console.log('whats teh game status sir')
     if (gameStatus === 'question') {
@@ -64,7 +65,7 @@ const PlayGame = () => {
     }
   }, [gameStatus]);
 
-  // update the time remaining on the question
+  // Update the time remaining on the question
   useEffect(() => {
     if (gameStatus === 'question') {
       if (time > 0) {
@@ -78,7 +79,7 @@ const PlayGame = () => {
     }
   });
 
-  // every second, checks if the host has advanced the question (check current q)
+  // Every second, checks if the host has advanced the question (check current q)
   useEffect(() => {
     const interval = setInterval(() => {
       if (gameStatus === 'question' || (gameStatus === 'answer')) {
@@ -88,6 +89,7 @@ const PlayGame = () => {
     return () => clearInterval(interval);
   });
 
+  // Get results of game from api
   const getGameResults = async (pid) => {
     console.log('getting results');
     const response = await axios.get(`http://localhost:5005/play/${pid}/results`)
@@ -105,6 +107,7 @@ const PlayGame = () => {
     }
   }
 
+  // Get current question from api
   const getCurrentQuestion = async (pid) => {
     const response = await axios.get(`http://localhost:5005/play/${pid}/question`)
       .catch(e => console.log(e.message));
@@ -122,6 +125,7 @@ const PlayGame = () => {
     }
   }
 
+  // Get correct answer from api
   const getAns = async (pid) => {
     const response = await axios.get(`http://localhost:5005/play/${pid}/answer`)
       .catch(e => console.log(e.message));
@@ -141,6 +145,7 @@ const PlayGame = () => {
     }
   }
 
+  // Submit user's answer to api
   const submitAns = async (pid, currSubmitAnsObj) => {
     let submitAnswerIds = [];
     if (currentQuestionObject.questionType === 'Multiple Choice') {
@@ -175,6 +180,7 @@ const PlayGame = () => {
     }
   };
 
+  // Lobby and game card styles
   const useStyles = makeStyles({
     root: {
       maxWidth: '90%',

@@ -5,6 +5,7 @@ import Header from '../components/AuthHeader.jsx';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+// User register function
 const Register = () => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');

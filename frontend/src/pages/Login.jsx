@@ -10,7 +10,9 @@ const Login = () => {
   const [password, setPassword] = React.useState('');
   const [loggedIn, setLoggedIn] = React.useState(false);
 
+  // User log in function
   const loginUser = async () => {
+    // Input validation
     if (email === '') {
       alert('Please enter an email');
     }

@@ -195,34 +195,35 @@ const GameResult = () => {
       {(numPlayers > 0 && numQuestions > 0) &&
         (
           <div>
-          <div className={classes.page}>
-            <h4 className={classes.title}>Player Leaderboard</h4>
-            <TableContainer component={Paper}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Rank</StyledTableCell>
-                    <StyledTableCell>Name</StyledTableCell>
-                    <StyledTableCell>Score</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {topPlayers.map((row, idx) => (
-                    <StyledTableRow key={row.name}>
-                      <StyledTableCell>{idx + 1}</StyledTableCell>
-                      <StyledTableCell>{row.name}</StyledTableCell>
-                      <StyledTableCell>{row.score}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Table /><br />
-            <h4 className={classes.title}>Breakdown of correct question responses</h4>
-            <Bar data={barData} options={barOptions} /><br />
-            <h4 className={classes.title}>Average question response time</h4>
-            <Line data={lineData} options={lineOptions} />
-          </div>
+            <div className={classes.page}>
+              <h4 className={classes.title}>Player Leaderboard</h4>
+              <TableContainer component={Paper}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell>Rank</StyledTableCell>
+                      <StyledTableCell>Name</StyledTableCell>
+                      <StyledTableCell>Score</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {topPlayers.map((row, idx) => (
+                      <StyledTableRow key={row.name}>
+                        <StyledTableCell>{idx + 1}</StyledTableCell>
+                        <StyledTableCell>{row.name}</StyledTableCell>
+                        <StyledTableCell>{row.score}</StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Table />
+              <br />
+              <h4 className={classes.title}>Breakdown of correct question responses</h4>
+              <Bar data={barData} options={barOptions} /><br />
+              <h4 className={classes.title}>Average question response time</h4>
+              <Line data={lineData} options={lineOptions} />
+            </div>
           </div>
         )}
     </div>

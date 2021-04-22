@@ -6,6 +6,7 @@ import axios from 'axios';
 import Header from '../components/Header.jsx';
 import uuid from 'react-uuid';
 
+// Edit Question page function
 const EditQuestion = () => {
   const params = useParams();
   const [goBack, setGoBack] = React.useState(false);
