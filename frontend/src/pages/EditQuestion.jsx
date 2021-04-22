@@ -70,8 +70,6 @@ const EditQuestion = () => {
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('hey');
-      console.log(response.data.questions);
       response.data.questions.forEach((question) => {
         if (question.id === Number(qid)) {
           setPreviousQuestion(question);

@@ -29,9 +29,13 @@ const NewGame = () => {
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       if (file !== '') {
-        ReadFile(file, response.data.quizId, name);
+        if (file.name.split('.').pop().toLowerCase() === 'json') {
+          ReadFile(file, response.data.quizId, name);
+        } else {
+          alert('Please attach json files only');
+        }
       } else {
-        alert('No file uploaded, thats cool :) A new empty game has been created!')
+        alert('A new empty game has been created!')
       }
       setGoBack(true);
     }

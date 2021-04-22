@@ -32,7 +32,6 @@ const Login = () => {
       }
     }).catch(e => alert(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log(response.data.token);
       localStorage.setItem('token', response.data.token);
       setLoggedIn(true);
     }

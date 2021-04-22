@@ -22,14 +22,12 @@ const JoinGame = () => {
       .catch(e => alert(e.message));
     if (response !== undefined && response.status === 200) {
       setPID(response.data.playerId);
-      console.log(name, 'joined game ', sid, 'with pid ', pid);
       setGoPlay(true);
     }
   };
 
   // Redirect user to the play game page after joining a game
   if (goPlay) {
-    console.log('playerid is: ', pid);
     return <Redirect to={generatePath('/play/:pid', { pid: pid })} />
   }
 

@@ -32,9 +32,7 @@ export const AddQuestionToGame = async (gid, question, questionType, timeLimit, 
       answerList: answerList,
       correctAnsList: correctAnsList
     }
-    console.log('old list of questions: ', questions)
     questions.push(newQuestionBody); // Adding the new question to the old list of qs
-    console.log('new list of questions: ', questions);
     // Now that we have the current quiz data, we can update the quiz
     response = await axios.put(`http://localhost:5005/admin/quiz/${gid}`, {
       questions,
@@ -48,7 +46,7 @@ export const AddQuestionToGame = async (gid, question, questionType, timeLimit, 
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      alert('successfully added question :~D');
+      alert('successfully added question');
       setGoBack(true);
     }
   }

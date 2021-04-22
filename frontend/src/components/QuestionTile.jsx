@@ -31,7 +31,6 @@ const QuestionTile = (props) => {
 
   // Show user the edit question page for specified question
   if (goEditQuestion) {
-    console.log(generatePath('/edit/:gid/:qid', { gid: gid, qid: qid }))
     return <Redirect to={generatePath('/edit/:gid/:qid', { gid: gid, qid: qid })} />
   }
 

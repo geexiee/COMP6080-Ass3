@@ -13,7 +13,6 @@ const Logout = () => {
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('Logged out!');
       localStorage.removeItem('token');
       setLoggedIn(false);
     }

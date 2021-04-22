@@ -27,7 +27,8 @@ const PlayGame = () => {
   const [selectedAnswers, setSelectedAnswers] = React.useState([]);
   const [correctAnswers, setCorrectAnswers] = React.useState([]);
   const [gameStatus, setGameStatus] = React.useState('wait');
-  const [playerResults, setPlayerResults] = React.useState([])
+  const [playerResults, setPlayerResults] = React.useState([]);
+  const [answerOptionStates, setAnswerOptionStates] = React.useState([]);
 
   // Checking if game has started (get out of waiting room)
   useEffect(() => {
@@ -42,12 +43,10 @@ const PlayGame = () => {
 
   // Sets gameStatus to 'question' if the game has started (get out of waiting room)
   const setStatus = async (pid) => {
-    console.log('aaaaaaa');
     const response = await axios.get(`http://localhost:5005/play/${pid}/status`)
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
       if (response.data.started) {
-        console.log('host has started the game, gamestatus set to question');
         setGameStatus('question');
       }
     }
@@ -56,10 +55,10 @@ const PlayGame = () => {
   // When game status changes to question, set the current question
   // When game status changes to answer, set the current answer
   useEffect(() => {
-    console.log('whats teh game status sir')
     if (gameStatus === 'question') {
       getCurrentQuestion(pid);
     } else if (gameStatus === 'answer') {
+      setAnswerOptionStates([]);
       getAns(pid)
     } else if (gameStatus === 'finished') {
       getGameResults(pid);
@@ -92,7 +91,6 @@ const PlayGame = () => {
 
   // Get results of game from api
   const getGameResults = async (pid) => {
-    console.log('getting results');
     const response = await axios.get(`http://localhost:5005/play/${pid}/results`)
       .catch(e => console.log(e.message));
     if (response !== undefined && response.status === 200) {
@@ -117,6 +115,7 @@ const PlayGame = () => {
       if (questionObject.id !== currentQuestionObject.id) { // question has changed!
         setGameStatus('question');
         setSelectedAnswers([]);
+        setAnswerOptionStates(new Array(questionObject.answerList.length).fill(false));
         setTime(questionObject.timeLimit);
       }
       setCurrentQuestionObject(questionObject);
@@ -147,7 +146,19 @@ const PlayGame = () => {
   }
 
   // Submit user's answer to api
-  const submitAns = async (pid, currSubmitAnsObj) => {
+  const submitAns = async (pid, currSubmitAnsObj, currAnsIndex) => {
+    setAnswerOptionStates(state => {
+      const list = answerOptionStates.map((answerState, index) => {
+        if (index === currAnsIndex) {
+          if (answerState === false) {
+            return true;
+          }
+          return false;
+        }
+        return answerState;
+      });
+      return list;
+    })
     let submitAnswerIds = [];
     if (currentQuestionObject.questionType === 'Multiple Choice') {
       // adding the selected answer to the answerlist or removing if its already there
@@ -175,7 +186,6 @@ const PlayGame = () => {
         answerIds: [currSubmitAnsObj.id]
       }).catch(e => console.log(e.message));
       if (response !== undefined && response.status === 200) {
-        console.log(response);
         setSelectedAnswers([currSubmitAnsObj]);
       }
     }
@@ -230,12 +240,18 @@ const PlayGame = () => {
           />
         </CardActionArea>}
         <CardActions>
-          {currentQuestionObject.answerList.map(answerOption => (
-            <Button key={answerOption.id} size="small" color="primary" variant="contained"
-            onClick={() => submitAns(pid, answerOption)}
-            >{answerOption.answer}</Button>
+          {currentQuestionObject.answerList.map((answerOption, index) => (
+            <Button key={answerOption.id}
+            size="small"
+            color={answerOptionStates[index] ? 'primary' : 'secondary'}
+            variant="contained"
+            onClick={() => submitAns(pid, answerOption, index)}
+            >
+              {answerOption.answer}
+            </Button>
           ))}
         </CardActions>
+
       </Card>}
 
       {(gameStatus === 'answer') &&

@@ -20,9 +20,6 @@ export const DeleteQuestion = async (qid, gid) => {
         questions.push(question);
       }
     });
-
-    console.log('old list of questions: ', oldQuestions);
-    console.log('new list of questions: ', questions);
     // Now we update the quiz so that it doesn't include the deleted question
     await axios.put(`http://localhost:5005/admin/quiz/${gid}`, {
       questions,

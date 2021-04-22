@@ -42,7 +42,7 @@ const GameTile = (props) => {
       }
     }).catch(e => alert(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      console.log('Game Deleted!');
+      alert('Game Deleted!');
     }
   }
 
@@ -156,13 +156,11 @@ const GameTile = (props) => {
       </div>
       <br />
       <Button id="stopGameButton" variant="outlined" onClick={ () => {
-        console.log('Stop game: ', gameID);
         stopGame(gameID);
         handleCloseStart();
         handleOpenRes();
       }}>Stop Game</Button>&nbsp;
       <Button id="advanceGameButton" variant="outlined" onClick={ () => {
-        console.log('Advance game: ', gameID);
         advanceGame(gameID);
       }}>Advance Game</Button>
     </div>

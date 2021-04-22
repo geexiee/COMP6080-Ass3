@@ -22,7 +22,7 @@ export const ReadFile = async (file, gid, name) => {
       }
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
-      alert('successfully added file :^)');
+      alert('successfully created quiz with a file');
     }
   };
   reader.readAsText(file);

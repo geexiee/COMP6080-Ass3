@@ -34,7 +34,6 @@ const EditGame = () => {
 
   // Redirect user to add question page after button click
   if (goAddQuestion) {
-    console.log(generatePath('/add/:gid/', { gid: params.gid }))
     return <Redirect to={generatePath('/add/:gid/', { gid: params.gid })} />
   }
 
@@ -46,7 +45,6 @@ const EditGame = () => {
         <p>Game ID: {params.gid}</p>
         <div id="QuestionTileDiv">
           {questions.map((q) => {
-            console.log(q);
             return (
               <QuestionTile key={q.id} qid={q.id} question={q.question} timeLimit={q.timeLimit} points={q.points} imageURL={q.imageURL} gid={params.gid} videoURL={q.videoURL}/> // pass onclick as a prop, hardcoded img for now xd
             );

@@ -4,7 +4,6 @@
  to return to a "player"
 */
 export const quizQuestionPublicReturn = question => {
-  console.log('See question: ', question);
   const publicQuestion = {
     id: question.id,
     question: question.question,
@@ -15,7 +14,6 @@ export const quizQuestionPublicReturn = question => {
     videoURL: question.videoURL,
     answerList: question.answerList, // this is the list of ALL answers 
   }
-  console.log(typeof (question.answerList));
   return publicQuestion;
 };
 

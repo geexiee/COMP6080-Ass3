@@ -26,12 +26,15 @@ const Register = () => {
     }
     if (email === '') {
       alert('Please enter an email');
+      return;
     }
     if (password === '') {
       alert('Please enter a password');
+      return;
     }
     if (name === '') {
       alert('Please enter a name');
+      return;
     }
 
     // Send backend request to register
