@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, generatePath } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { Select, Checkbox, TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
 import axios from 'axios';
 import Header from '../components/Header.jsx';
@@ -7,6 +8,7 @@ import uuid from 'react-uuid';
 
 const EditQuestion = () => {
   const params = useParams();
+  const [goBack, setGoBack] = React.useState(false);
   const [question, setQuestion] = React.useState('');
   const [questionType, setQuestionType] = React.useState('');
   const [timeLimit, setTimeLimit] = React.useState(-1);
@@ -58,7 +60,7 @@ const EditQuestion = () => {
     checked6 ? setchecked6(false) : setchecked6(true);
   }
 
-  const GetQuestion = (gid, qid) => {
+  const getQuestion = (gid, qid) => {
     const response = axios.get(`http://localhost:5005/admin/quiz/${gid}`, {
       headers: {
         Accept: 'application/json',
@@ -222,12 +224,17 @@ const EditQuestion = () => {
       }).catch(e => console.log(e.response.data.error));
       if (response !== undefined && response.status === 200) {
         alert('successfully edited question :^D');
+        setGoBack(true);
       }
     }
   }
 
+  if (goBack) {
+    return <Redirect to={generatePath('/edit/:gid', { gid: params.gid })} />
+  }
+
   useEffect(() => {
-    GetQuestion(params.gid, params.qid);
+    getQuestion(params.gid, params.qid);
   }, []);
 
   // TODO: add a way for the user to mark correct answers, can indicate correct through either another list of correct answers or adding a field to answerobject

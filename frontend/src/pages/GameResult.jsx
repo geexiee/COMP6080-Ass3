@@ -14,27 +14,13 @@ import Paper from '@material-ui/core/Paper';
 
 const GameResult = () => {
   const params = useParams();
-  const [results, setResults] = React.useState([]);
-  const [numPlayers, setNumPlayers] = React.useState(Number);
+  console.log('hi');
+  // const [results, setResults] = React.useState([]);
+  // const [numPlayers, setNumPlayers] = React.useState(Number);
   const [numQuestions, setNumQuestions] = React.useState(Number);
   const [percentPerQuestion, setPercentPerQuestion] = React.useState(Number);
   const [averageTime, setAverageTime] = React.useState(Number);
   const [topPlayers, setTopPlayers] = React.useState([]);
-
-  // Get results for a particular game session
-  const getResults = async () => {
-    const response = await axios.get(`http://localhost:5005/admin/session/${params.sid}/results`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }).catch(e => console.log(e.response.data.error));
-    if (response !== undefined && response.status === 200) {
-      setResults(response.data.results);
-      setNumPlayers(response.data.results.length);
-      analyseResults();
-    }
-  }
 
   // Get response time for a particular question
   const responseTime = (startTime, answerTime) => {
@@ -44,7 +30,8 @@ const GameResult = () => {
   }
 
   // Analyse data to generate info for graphs
-  const analyseResults = () => {
+  const analyseResults = (results, numPlayers) => {
+    console.log(results);
     const correctPerQuestion = Array(numQuestions).fill(0);
     const totalTimePerQuestion = Array(numQuestions).fill(0);
     const playerScores = {};
@@ -63,10 +50,13 @@ const GameResult = () => {
         i++;
       })
     })
-
+    console.log(correctPerQuestion);
+    console.log('%', correctPerQuestion.map((i) => i / numPlayers * 100));
     // Calculate percentage each question has been answered correctly
     setPercentPerQuestion(correctPerQuestion.map((i) => i / numPlayers * 100));
 
+    console.log(totalTimePerQuestion);
+    console.log('time', totalTimePerQuestion.map((i) => i / numPlayers));
     // Calculate average response time per question
     setAverageTime(totalTimePerQuestion.map((i) => i / numPlayers));
 
@@ -79,7 +69,7 @@ const GameResult = () => {
         name: item[0],
         score: item[1],
       };
-      console.log(topPlayers);
+      // console.log(topPlayers);
       return topPlayers;
     })
     setTopPlayers(topPlayers);
@@ -190,8 +180,25 @@ const GameResult = () => {
   const classes = useStyles();
 
   useEffect(() => {
+    // Get results for a particular game session
+    const getResults = async () => {
+      const response = await axios.get(`http://localhost:5005/admin/session/${params.sid}/results`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }).catch(e => console.log(e.response.data.error));
+      console.log(response);
+      if (response !== undefined && response.status === 200) {
+        // setResults(response.data.results);
+        // console.log(results);
+        // setNumPlayers(response.data.results.length);
+        analyseResults(response.data.results, response.data.results.length);
+      }
+    }
+
     getResults();
-  });
+  }, []);
 
   return (
     <div>
@@ -218,8 +225,8 @@ const GameResult = () => {
         </Table>
       </TableContainer>
       <Table /><br />
-      <Bar className="contents" data={barData} options={barOptions} /><br />
-      <Line className="contents" data={lineData} options={lineOptions} />
+      <Bar data={barData} options={barOptions} /><br />
+      <Line data={lineData} options={lineOptions} />
     </div>
   );
 }
