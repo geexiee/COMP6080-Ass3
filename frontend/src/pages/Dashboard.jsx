@@ -26,11 +26,6 @@ const Dashboard = () => {
     GetQuizzes();
   }, []);
 
-  // const [goNewGame, setGoNewGame] = React.useState(false);
-  // if (goNewGame) {
-  //   return <Redirect to="/new" />;
-  // }
-
   return (
     <div>
       <Header />

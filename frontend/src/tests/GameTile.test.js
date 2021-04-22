@@ -9,6 +9,7 @@ const testQuizDetails = {
   owner: 'test owner',
   img: 'puppy.jpeg'
 }
+
 describe('GameTile testing', () => {
   it('has a specified game name', () => {
     const card = shallow(<GameTile ID={testQuizDetails.ID} name={testQuizDetails.name}
@@ -34,10 +35,10 @@ describe('GameTile testing', () => {
     expect(card.find(Button).find('.deleteGameButton').prop('children')).toContain('Delete Game');
   });
 
-  // it('has a clickable edit quiz button', () => {
-  //   const editQuiz = jest.fn();
-  //   const card = shallow(<GameTile ID={testQuizDetails.ID} name={testQuizDetails.name}
-  //     owner={testQuizDetails.owner} img={testQuizDetails.img } />);
-  //   expect(card.find(Button).find('.editGameButton').prop('children')).toContain('Edit Game');
-  // });
+  it('opens the game started modal when clicked', () => {
+    const card = shallow(<GameTile ID={testQuizDetails.ID} name={testQuizDetails.name}
+      owner={testQuizDetails.owner} img={testQuizDetails.img } />);
+    card.find('#startGameButton').simulate('click');
+    expect(card.find('#gameModalTitle').prop('children')).toContain('Game Started');
+  });
 });

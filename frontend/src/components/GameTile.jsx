@@ -201,7 +201,7 @@ const GameTile = (props) => {
         <Typography variant="body2" component="p">
           <Button name="editGameButton" variant="outlined" size="small" onClick={() => setGoEditGame(true)} className="editGameButton">Edit Game</Button>&nbsp;
           <Button variant="outlined" color="secondary" size="small" onClick={() => deleteGame(gameID)} className="deleteGameButton">Delete Game</Button><br /><br />
-          <Button name="startGameButton" variant="contained" size="small" color="primary"
+          <Button name="startGameButton" id="startGameButton" variant="contained" size="small" color="primary"
             onClick={() => {
               startGame(gameID);
               handleOpenStart();

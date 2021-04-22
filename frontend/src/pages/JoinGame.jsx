@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-// import { Redirect } from 'react-router';
 import Header from '../components/Header.jsx';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
