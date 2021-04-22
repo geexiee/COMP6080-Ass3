@@ -5,10 +5,8 @@ import Button from '@material-ui/core/Button';
 import { useParams } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import { CardHeader } from '@material-ui/core';
 import Confetti from 'react-confetti';
 import ReactPlayer from 'react-player';
@@ -233,16 +231,6 @@ const PlayGame = () => {
           <p>image link: {currentQuestionObject.imgURL}</p>
           <ReactPlayer url={currentQuestionObject.videoURL} />
         </CardContent>
-        {(currentQuestionObject.imgURL !== '') &&
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            alt="random image"
-            height="250"
-            image={currentQuestionObject.imgURL}
-            title="Bonus pic"
-          />
-        </CardActionArea>}
         <CardActions>
           {currentQuestionObject.answerList.map((answerOption, index) => (
             <Button key={answerOption.id}
@@ -259,19 +247,20 @@ const PlayGame = () => {
       </Card>}
 
       {(gameStatus === 'answer') &&
-        <div>
-        <h2>Correct Answers!</h2>
-        {correctAnswers.map(correctAnswer => (
-          <p key={correctAnswer.id}>{correctAnswer.answer}</p>
-        ))}
-        <h2>Your Answers!</h2>
-        {selectedAnswers.map(selectedAnswer => (
-          <p key={selectedAnswer.id}>{selectedAnswer.answer}</p>
-        ))}
-      </div>}
+        <div className="PageBody">
+          <h2>Correct Answers!</h2>
+          {correctAnswers.map(correctAnswer => (
+            <p key={correctAnswer.id}>{correctAnswer.answer}</p>
+          ))}
+          <h2>Your Answers!</h2>
+          {selectedAnswers.map(selectedAnswer => (
+            <p key={selectedAnswer.id}>{selectedAnswer.answer}</p>
+          ))}
+        </div>
+      }
 
       {(gameStatus === 'finished') &&
-        <div>
+        <div className="PageBody">
           <h2>Game over! The host has ended the game!</h2>
           {playerResults.map((questionResult, index) => (
             <div key={index}>

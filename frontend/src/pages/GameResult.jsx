@@ -3,14 +3,8 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header.jsx';
 import axios from 'axios';
 import { Bar, Line } from 'react-chartjs-2';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Leaderboard from '../components/Leaderboard.jsx';
 
 // Admin game result page function
 const GameResult = () => {
@@ -46,6 +40,7 @@ const GameResult = () => {
   const analyseResults = (results, numPlayers) => {
     if (results.length === 0) return;
     setNumQuestions(results[0].answers.length);
+    console.log(results[0].answers.length);
     const correctPerQuestion = new Array(results[0].answers.length).fill(0);
     const totalTimePerQuestion = new Array(results[0].answers.length).fill(0);
     const playerScores = {};
@@ -80,6 +75,7 @@ const GameResult = () => {
       };
       return topPlayers;
     })
+    console.log(topPlayers);
     setTopPlayers(topPlayers);
   }
 
@@ -151,25 +147,6 @@ const GameResult = () => {
     ]
   };
 
-  // Table styles
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
-
   const useStyles = makeStyles({
     page: {
       margin: 'auto',
@@ -178,9 +155,6 @@ const GameResult = () => {
     },
     title: {
       textAlign: 'center',
-    },
-    table: {
-      minWidth: 350,
     },
   });
   const classes = useStyles();
@@ -200,27 +174,7 @@ const GameResult = () => {
           <div>
             <div className={classes.page}>
               <h4 className={classes.title}>Player Leaderboard</h4>
-              <TableContainer component={Paper}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>Rank</StyledTableCell>
-                      <StyledTableCell>Name</StyledTableCell>
-                      <StyledTableCell>Score</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {topPlayers.map((row, idx) => (
-                      <StyledTableRow key={row.name}>
-                        <StyledTableCell>{idx + 1}</StyledTableCell>
-                        <StyledTableCell>{row.name}</StyledTableCell>
-                        <StyledTableCell>{row.score}</StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Table />
+              <Leaderboard data={topPlayers} />
               <br />
               <h4 className={classes.title}>Breakdown of correct question responses</h4>
               <Bar data={barData} options={barOptions} /><br />
