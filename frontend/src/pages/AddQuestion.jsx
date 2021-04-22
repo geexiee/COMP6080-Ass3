@@ -6,6 +6,7 @@ import uuid from 'react-uuid';
 import { AddQuestionToGame } from '../functions/AddQuestionToGame.js'
 import { Redirect } from 'react-router-dom';
 
+// Collect input for adding a new question to a game
 const AddQuestion = () => {
   const params = useParams();
   const [goBack, setGoBack] = React.useState(false);
@@ -59,6 +60,7 @@ const AddQuestion = () => {
     checked6 ? setchecked6(false) : setchecked6(true);
   }
 
+  // Submit question to be added to game
   const submitQuestion = async (question, questionType, timeLimit, points, image, videoURL) => {
     if (answer1 !== '') {
       const answerObject = {

@@ -6,14 +6,15 @@ import Header from '../components/Header.jsx';
 import Button from '@material-ui/core/Button';
 import QuestionTile from '../components/QuestionTile.jsx'
 
-// TODO: try put the thumbnail on each questiontile, style the editgame page so the tiles are ordered nicer
+// Admin edit game page function
 const EditGame = () => {
   const params = useParams();
   const [questions, setQuestions] = React.useState([]);
   const [goAddQuestion, setGoAddQuestion] = React.useState(false);
   const [gameName, setGameName] = React.useState('');
 
-  const GetQuestions = async () => {
+  // Get questions in a game
+  const getQuestions = async () => {
     const response = await axios.get(`http://localhost:5005/admin/quiz/${params.gid}`, {
       headers: {
         Accept: 'application/json',
@@ -26,10 +27,12 @@ const EditGame = () => {
     }
   }
 
+  // Get game's questions on load
   useEffect(() => {
-    GetQuestions();
+    getQuestions();
   }, []);
 
+  // Redirect user to add question page after button click
   if (goAddQuestion) {
     console.log(generatePath('/add/:gid/', { gid: params.gid }))
     return <Redirect to={generatePath('/add/:gid/', { gid: params.gid })} />

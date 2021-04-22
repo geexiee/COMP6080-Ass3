@@ -14,6 +14,8 @@ import Confetti from 'react-confetti'
 
 // User play game page function
 const PlayGame = () => {
+
+  // Calculate time left to answer a question
   const calculateTimeLeft = (currentTimeLeft) => {
     currentTimeLeft = currentTimeLeft - 1;
     return currentTimeLeft;

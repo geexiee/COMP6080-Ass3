@@ -13,7 +13,10 @@ const Register = () => {
   const [password2, setPassword2] = React.useState('');
   const [loggedIn, setLoggedIn] = React.useState(false);
 
+  // Input validation along with backend register new admin request
   const registerUser = async () => {
+
+    // Input validation
     if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
       alert('Please enter a valid email');
       return;
@@ -31,6 +34,8 @@ const Register = () => {
     if (name === '') {
       alert('Please enter a name');
     }
+
+    // Send backend request to register
     const response = await axios.post('http://localhost:5005/admin/auth/register', {
       email,
       password,

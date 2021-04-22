@@ -61,6 +61,7 @@ const EditQuestion = () => {
     checked6 ? setchecked6(false) : setchecked6(true);
   }
 
+  // Get question by game ID and question ID
   const getQuestion = (gid, qid) => {
     const response = axios.get(`http://localhost:5005/admin/quiz/${gid}`, {
       headers: {
@@ -74,7 +75,6 @@ const EditQuestion = () => {
       response.data.questions.forEach((question) => {
         if (question.id === Number(qid)) {
           setPreviousQuestion(question);
-          console.log(question);
         }
       });
       if (previousQuestion === '') {
@@ -83,9 +83,9 @@ const EditQuestion = () => {
     }
   }
 
+
+  // Generates list of answers and checks for valid input
   const submitQuestion = async (question, questionType, timeLimit, points, image, videoURL) => {
-    // generating list of answers and checking for valid input
-    // TODO: SIMPLIFY IF POSSIBLE
     if (answer1 !== '') {
       const answerObject = {
         id: uuid(),
@@ -230,10 +230,12 @@ const EditQuestion = () => {
     }
   }
 
+  // Get question data on load
   useEffect(() => {
     getQuestion(params.gid, params.qid);
   }, []);
 
+  // Take user back to the edit game page after editing question successfully
   if (goBack) {
     return <Redirect to={generatePath('/edit/:gid', { gid: params.gid })} />
   }

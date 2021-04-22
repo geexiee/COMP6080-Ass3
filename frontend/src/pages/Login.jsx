@@ -5,13 +5,15 @@ import Header from '../components/AuthHeader.jsx';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+// User log in function
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  // User log in function
+  // Input validation along with backend admin login request
   const loginUser = async () => {
+  
     // Input validation
     if (email === '') {
       alert('Please enter an email');
@@ -19,6 +21,8 @@ const Login = () => {
     if (password === '') {
       alert('Please enter a password');
     }
+  
+    // Send backend request to log in
     const response = await axios.post('http://localhost:5005/admin/auth/login', {
       email,
       password

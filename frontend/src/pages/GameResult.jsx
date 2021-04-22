@@ -12,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+// Admin game result page function
 const GameResult = () => {
   const params = useParams();
   const [numQuestions, setNumQuestions] = React.useState(Number);
@@ -61,6 +62,7 @@ const GameResult = () => {
         i++;
       })
     })
+  
     // Calculate percentage each question has been answered correctly
     setPercentPerQuestion(correctPerQuestion.map((i) => i / numPlayers * 100));
 

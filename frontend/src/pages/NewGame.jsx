@@ -7,11 +7,13 @@ import { Input } from '@material-ui/core';
 import { ReadFile } from '../functions/ReadFile.js'
 import { Redirect } from 'react-router-dom';
 
+// New game page function for admin
 const NewGame = () => {
   const [name, setName] = React.useState('');
   const [file, setFile] = React.useState('');
   const [goBack, setGoBack] = React.useState(false);
 
+  // Handle admin creation of new game including file upload
   const handleCreateNewGame = async () => {
     let response = await axios.get('http://localhost:5005/admin/quiz', {
       headers: {
@@ -35,6 +37,7 @@ const NewGame = () => {
     }
   }
 
+  // Show admin dashboard again after they create new game
   if (goBack) {
     return <Redirect to="/dashboard" />
   }

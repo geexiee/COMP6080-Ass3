@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { generatePath, Redirect, useParams } from 'react-router';
 
+// Player join game page function
 const JoinGame = () => {
   const params = useParams();
   const [sid, setSID] = React.useState(params.sid ? params.sid : '');
@@ -12,12 +13,13 @@ const JoinGame = () => {
   const [pid, setPID] = React.useState('');
   const [goPlay, setGoPlay] = React.useState(false);
 
+  // Player join game backend via api
   const joinGame = async (sid, name) => {
     if (name === '') {
       alert('Please enter a name');
     }
     const response = await axios.post(`http://localhost:5005/play/join/${sid}`, { name })
-      .catch(e => console.log(e.message));
+      .catch(e => alert(e.message));
     if (response !== undefined && response.status === 200) {
       setPID(response.data.playerId);
       console.log(name, 'joined game ', sid, 'with pid ', pid);

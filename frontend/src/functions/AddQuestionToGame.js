@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// Add question to game backend api call
 export const AddQuestionToGame = async (gid, question, questionType, timeLimit, points, image, videoURL, answerList, correctAnsList, setGoBack) => {
   const oldQuestionIdList = [];
   // Fetch current quiz data so we can add the new question

@@ -5,10 +5,12 @@ import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
 import Button from '@material-ui/core/Button';
 
+// Admin dashboard page function
 const Dashboard = () => {
-  console.log(localStorage.getItem('token'))
-  const [quizzes, setQuizzes] = React.useState([]);
-  const GetQuizzes = async () => {
+  const [games, setGames] = React.useState([]);
+
+  // Get games hosted by logged-in admin
+  const getGames = async () => {
     const response = await axios.get('http://localhost:5005/admin/quiz', {
       headers: {
         Accept: 'application/json',
@@ -17,12 +19,13 @@ const Dashboard = () => {
     }).catch(e => console.log(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       const quizArray = response.data.quizzes;
-      setQuizzes(quizArray);
+      setGames(quizArray);
     }
   }
 
+  // Get admin games on page load
   useEffect(() => {
-    GetQuizzes();
+    getGames();
   }, []);
 
   return (
@@ -30,11 +33,19 @@ const Dashboard = () => {
       <Header />
       <div className="PageBody">
         <h2>Dashboard</h2>
-        <Button name="createNewGameButton" variant="contained" color="primary"><Link to="/new" style={{ color: 'white' }}>Create New Game</Link></Button>
+        <Button name="createNewGameButton" variant="contained" color="primary">
+          <Link to="/new" style={{ color: 'white' }}>Create New Game</Link>
+        </Button>
         <div id="GameTileContainer">
-          {quizzes.map((quiz) => {
+          {games.map((game) => {
             return (
-              <GameTile key={quiz.id} ID={quiz.id} owner={quiz.owner} name={quiz.name} img='https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png'/> // pass onclick as a prop, hardcoded img for now xd
+              <GameTile
+                key={game.id}
+                ID={game.id}
+                owner={game.owner}
+                name={game.name}
+                img='https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png' />
+                // pass onclick as a prop, hardcoded img for now xd
             )
           }
           )}
