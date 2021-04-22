@@ -30,7 +30,7 @@ const Dashboard = () => {
       <Header />
       <div className="PageBody">
         <h2>Dashboard</h2>
-        <Button variant="contained" color="primary"><Link to="/new" style={{ color: 'white' }}>Create New Game</Link></Button>
+        <Button name="createNewGameButton" variant="contained" color="primary"><Link to="/new" style={{ color: 'white' }}>Create New Game</Link></Button>
         <div id="GameTileContainer">
           {quizzes.map((quiz) => {
             return (

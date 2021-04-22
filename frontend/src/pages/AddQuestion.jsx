@@ -160,41 +160,42 @@ const AddQuestion = () => {
   if (goBack) {
     return <Redirect to={generatePath('/edit/:id', { id: params.gid })} />
   }
-  
+
   return (
-    <div>
+    <div className="AddQuestionForm">
       <Header />
-        <div className="AddQuestionForm PageBody">
+      <div className="PageBody">
         <form>
           <h2>Add Question</h2>
           <p>Game ID: {params.gid}</p>
           <FormControl>
             <FormControl>
-              <TextField label="Question" required onInput={ e => setQuestion(e.target.value)}></TextField>
+              <TextField name="question" label="Question" required onInput={e => setQuestion(e.target.value)}></TextField>
               <FormLabel required>Question Type</FormLabel>
-              <RadioGroup aria-label="Question Type" name="questionType" onInput={ e => setQuestionType(e.target.value)}>
-                <FormControlLabel value="Multiple Choice" control={<Radio />} label="Multiple Choice" />
-                <FormControlLabel value="Single Choice" control={<Radio />} label="Single Choice" />
+              <RadioGroup aria-label="Question Type" name="questionType" onInput={e => setQuestionType(e.target.value)}>
+                <FormControlLabel name="multipleChoice" value="Multiple Choice" control={<Radio />} label="Multiple Choice" />
+                <FormControlLabel name="singleChoice" value="Single Choice" control={<Radio />} label="Single Choice" />
               </RadioGroup>
-              <TextField id="timeLimit" type="number" label="Time Limit (s)" required onInput={ e => setTimeLimit(e.target.value)}></TextField>
-              <TextField id="points" type="number" label="Points" required onInput={ e => setPoints(e.target.value)}></TextField>
+              <TextField id="timeLimit" type="number" label="Time Limit (s)" required onInput={e => setTimeLimit(e.target.value)}></TextField>
+              <TextField id="points" type="number" label="Points" required onInput={e => setPoints(e.target.value)}></TextField>
               <p>Image</p>
-              <Input type="file" label="Image" onInput={ e => setImage(e.target.value)}></Input>
+              <Input type="file" label="Image" onInput={e => setImage(e.target.value)}></Input>
             </FormControl>
             <FormControl>
               <InputLabel>Video URL</InputLabel>
-              <Input onInput={ e => setVideoURL(e.target.value)}></Input>
+              <Input onInput={e => setVideoURL(e.target.value)}></Input>
             </FormControl>
             <FormControl>
               <InputLabel htmlFor="age-native-simple">Number of Answers</InputLabel>
               <Select
-              native
-              value={numAnswers}
-              onChange={handleNumAnschange}
-              inputProps={{
-                name: 'age',
-                id: 'age-native-simple',
-              }}
+                name="numAnswers"
+                native
+                value={numAnswers}
+                onChange={handleNumAnschange}
+                inputProps={{
+                  name: 'age',
+                  id: 'age-native-simple',
+                }}
               >
                 <option aria-label="None" value="" />
                 <option value={2}>2</option>
@@ -202,61 +203,62 @@ const AddQuestion = () => {
                 <option value={4}>4</option>
                 <option value={5}>5</option>
                 <option value={6}>6</option>
-            </Select>
+              </Select>
               <p>Answer Options</p>
               <div>
-                <TextField id="answer1" label="Answer 1" required onInput={ e => setAnswer1(e.target.value)}></TextField>
+                <TextField id="answer1" label="Answer 1" required onInput={e => setAnswer1(e.target.value)}></TextField>
                 <FormControlLabel
-                  control={<Checkbox onChange={check1}/>}
+                  control={<Checkbox name="checkbox1" onChange={check1} />}
                   label="Correct"
                 />
               </div>
               <div>
-                <TextField id="answer2" label="Answer 2" required onInput={ e => setAnswer2(e.target.value)}></TextField>
+                <TextField id="answer2" label="Answer 2" required onInput={e => setAnswer2(e.target.value)}></TextField>
                 <FormControlLabel
-                  control={<Checkbox onChange={check2}/>}
+                  control={<Checkbox name="checkbox2" onChange={check2} />}
                   label="Correct"
                 />
               </div>
               {numAnswers > 2 &&
-              <div>
-                <TextField id="answer3" label="Answer 3" onInput={ e => setAnswer3(e.target.value)}></TextField>
-                <FormControlLabel
-                  control={<Checkbox onChange={check3}/>}
-                  label="Correct"
-                />
-              </div>}
+                <div>
+                  <TextField id="answer3" label="Answer 3" onInput={e => setAnswer3(e.target.value)}></TextField>
+                  <FormControlLabel
+                    control={<Checkbox name="checkbox3" onChange={check3} />}
+                    label="Correct"
+                  />
+                </div>}
               {numAnswers > 3 &&
-              <div>
-                <TextField id="answer4" label="Answer 4" onInput={ e => setAnswer4(e.target.value)}></TextField>
-                <FormControlLabel
-                  control={<Checkbox onChange={check4}/>}
-                  label="Correct"
-                />
-              </div>}
+                <div>
+                  <TextField id="answer4" label="Answer 4" onInput={e => setAnswer4(e.target.value)}></TextField>
+                  <FormControlLabel
+                    control={<Checkbox name="checkbox4" onChange={check4} />}
+                    label="Correct"
+                  />
+                </div>}
               {numAnswers > 4 &&
-              <div>
-                <TextField id="answer5" label="Answer 5" onInput={ e => setAnswer5(e.target.value)}></TextField>
-                <FormControlLabel
-                  control={<Checkbox onChange={check5}/>}
-                  label="Correct"
-                />
-              </div>}
+                <div>
+                  <TextField id="answer5" label="Answer 5" onInput={e => setAnswer5(e.target.value)}></TextField>
+                  <FormControlLabel
+                    control={<Checkbox name="checkbox5" onChange={check5} />}
+                    label="Correct"
+                  />
+                </div>}
               {numAnswers > 5 &&
-              <div>
-                <TextField id="answer6" label="Answer 6" onInput={ e => setAnswer6(e.target.value)}></TextField>
-                <FormControlLabel
-                  control={<Checkbox onChange={check6}/>}
-                  label="Correct"
-                />
-              </div>}
+                <div>
+                  <TextField id="answer6" label="Answer 6" onInput={e => setAnswer6(e.target.value)}></TextField>
+                  <FormControlLabel
+                    control={<Checkbox name="checkbox6" onChange={check6} />}
+                    label="Correct"
+                  />
+                </div>}
             </FormControl>
-            <Button variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
+            <Button name="submitNewQuestionButton" variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
           </FormControl>
         </form>
       </div>
     </div>
   );
+
 };
 
 export default AddQuestion;

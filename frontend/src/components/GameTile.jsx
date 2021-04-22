@@ -141,8 +141,8 @@ const GameTile = (props) => {
 
   const bodyStart = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Game Started</h2>
-      <p id="simple-modal-description">
+      <h2 id="gameModalTitle">Game Started</h2>
+      <p id="gameModalDescription">
         Here is the session code:
       </p>
       <h1>{sessionID}</h1>
@@ -155,13 +155,13 @@ const GameTile = (props) => {
         </Tooltip>
       </div>
       <br />
-      <Button variant="outlined" onClick={ () => {
+      <Button id="stopGameButton" variant="outlined" onClick={ () => {
         console.log('Stop game: ', gameID);
         stopGame(gameID);
         handleCloseStart();
         handleOpenRes();
       }}>Stop Game</Button>&nbsp;
-      <Button variant="outlined" onClick={ () => {
+      <Button id="advanceGameButton" variant="outlined" onClick={ () => {
         console.log('Advance game: ', gameID);
         advanceGame(gameID);
       }}>Advance Game</Button>
@@ -180,7 +180,7 @@ const GameTile = (props) => {
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Game Stopped</h2>
       <p id="simple-modal-description">Would you like to view the results?</p>
-      <Button color="primary" onClick={ () => {
+      <Button name="yesButtonViewResults" color="primary" onClick={ () => {
         console.log('gang');
         setGoResults(true);
       }}>Yes</Button>
@@ -191,19 +191,19 @@ const GameTile = (props) => {
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        <Typography className={classes.title} color="textSecondary" gutterBottom id="gameID">
           Game ID: {gameID}
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" id="gameName">
           Game Name: {name}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
+        <Typography className={classes.pos} color="textSecondary" id="gameOwner">
           Owner: {owner}
         </Typography>
         <Typography variant="body2" component="p">
-          <Button variant="outlined" size="small" onClick={() => setGoEditGame(true)}>Edit Game</Button>&nbsp;
-          <Button variant="outlined" color="secondary" size="small" onClick={() => deleteGame(gameID)}>Delete Game</Button><br /><br />
-          <Button variant="contained" size="small" color="primary"
+          <Button name="editGameButton" variant="outlined" size="small" onClick={() => setGoEditGame(true)} className="editGameButton">Edit Game</Button>&nbsp;
+          <Button variant="outlined" color="secondary" size="small" onClick={() => deleteGame(gameID)} className="deleteGameButton">Delete Game</Button><br /><br />
+          <Button name="startGameButton" id="startGameButton" variant="contained" size="small" color="primary"
             onClick={() => {
               startGame(gameID);
               handleOpenStart();

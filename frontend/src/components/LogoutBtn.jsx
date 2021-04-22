@@ -24,7 +24,7 @@ const Logout = () => {
     return <Redirect to="/login" />;
   }
 
-  return <Button onClick={logoutUser} variant="outline-primary">Logout</Button>;
+  return <Button id="logoutButton" onClick={logoutUser} variant="outline-primary">Logout</Button>;
 }
 
 export default Logout;
