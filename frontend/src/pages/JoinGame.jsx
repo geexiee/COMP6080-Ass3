@@ -17,9 +17,10 @@ const JoinGame = () => {
   const joinGame = async (sid, name) => {
     if (name === '') {
       alert('Please enter a name');
+      return;
     }
     const response = await axios.post(`http://localhost:5005/play/join/${sid}`, { name })
-      .catch(e => alert(e.message));
+      .catch(e => alert("That game doesn't exist yet!"));
     if (response !== undefined && response.status === 200) {
       setPID(response.data.playerId);
       setGoPlay(true);
