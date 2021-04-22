@@ -329,7 +329,13 @@ const EditQuestion = () => {
                 />
               </div>}
             </FormControl>
-            <Button variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}
+            >
+              Submit
+            </Button>
           </FormControl>
         </form>
       </div>

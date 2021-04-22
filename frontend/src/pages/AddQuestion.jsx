@@ -254,7 +254,14 @@ const AddQuestion = () => {
                   />
                 </div>}
             </FormControl>
-            <Button name="submitNewQuestionButton" variant="contained" color="primary" onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}>Submit</Button>
+            <Button
+              name="submitNewQuestionButton"
+              variant="contained"
+              color="primary"
+              onClick={() => submitQuestion(question, questionType, timeLimit, points, image, videoURL)}
+            >
+              Submit
+            </Button>
           </FormControl>
         </form>
       </div>
