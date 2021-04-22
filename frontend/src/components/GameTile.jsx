@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Modal from '@material-ui/core/Modal';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const GameTile = (props) => {
   const { ID: gameID, name, owner, img } = props;
@@ -39,22 +40,19 @@ const GameTile = (props) => {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).catch(e => console.log(e.response.data.error));
+    }).catch(e => alert(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       console.log('Game Deleted!');
     }
   }
 
-  const startGame = async (gameID) => {
-    const response = await axios.post(`http://localhost:5005/admin/quiz/${gameID}/start`, '', {
+  const startGame = (gameID) => {
+    axios.post(`http://localhost:5005/admin/quiz/${gameID}/start`, '', {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).catch(e => console.log(e.response.data.error));
-    if (response !== undefined && response.status === 200) {
-      console.log('Game Started!', gameID);
-    }
+    }).catch(e => alert(e.response.data.error));
   }
 
   const advanceGame = async (gameID) => {
@@ -63,22 +61,19 @@ const GameTile = (props) => {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).catch(e => console.log(e.response.data.error));
+    }).catch(e => alert(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       console.log('Game Advanced!', gameID);
     }
   }
 
-  const stopGame = async (gameID) => {
-    const response = await axios.post(`http://localhost:5005/admin/quiz/${gameID}/end`, '', {
+  const stopGame = (gameID) => {
+    axios.post(`http://localhost:5005/admin/quiz/${gameID}/end`, '', {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).catch(e => console.log(e.response.data.error));
-    if (response !== undefined && response.status === 200) {
-      console.log('Game Stopped!', gameID);
-    }
+    }).catch(e => alert(e.response.data.error));
   }
 
   const getSessionId = async () => {
@@ -87,7 +82,7 @@ const GameTile = (props) => {
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).catch(e => console.log(e.response.data.error));
+    }).catch(e => alert(e.response.data.error));
     if (response !== undefined && response.status === 200) {
       console.log(response.data.active);
       setSessionID(response.data.active);
@@ -148,11 +143,17 @@ const GameTile = (props) => {
       <h2 id="simple-modal-title">Game Started</h2>
       <p id="simple-modal-description">
         Here is the session code:
-        <h1>{sessionID}</h1>
-        <IconButton size="small"><div onClick={() => {
-          navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
-        }}>📋</div></IconButton>
       </p>
+      <h1>{sessionID}</h1>
+      <div>
+        <Tooltip title="Copy to clipboard" placement="right">
+          <IconButton size="small" onClick={() => {
+            navigator.clipboard.writeText(`localhost:3000/join/${sessionID}`)
+          }}>📋
+          </IconButton>
+        </Tooltip>
+      </div>
+      <br />
       <Button variant="outlined" onClick={ () => {
         console.log('Stop game: ', gameID);
         stopGame(gameID);

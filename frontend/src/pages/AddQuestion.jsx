@@ -1,9 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useParams, generatePath } from 'react-router';
 import { Checkbox, Select, TextField, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl, Input, InputLabel, Button } from '@material-ui/core';
 import Header from '../components/Header.jsx';
 import uuid from 'react-uuid';
 import { AddQuestionToGame } from '../functions/AddQuestionToGame.js'
+import { Redirect } from 'react-router-dom';
 
 const AddQuestion = () => {
   const params = useParams();
@@ -156,7 +157,7 @@ const AddQuestion = () => {
   }
 
   if (goBack) {
-    // redirect
+    return <Redirect to={generatePath('/edit/:id', { id: params.gid })} />
   }
   return (
     <div className="AddQuestionForm">

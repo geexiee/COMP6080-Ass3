@@ -17,7 +17,7 @@ const Register = () => {
       email,
       password,
       name,
-    }).catch(e => console.log(e.message));
+    }).catch(e => alert(e.message));
     if (response !== undefined && response.status === 200) {
       console.log(response.data.token);
       localStorage.setItem('token', response.data.token);
@@ -25,6 +25,7 @@ const Register = () => {
     }
   };
 
+  // Show user the dashboard after registering successfully
   if (loggedIn) {
     return <Redirect to="/dashboard" />;
   }
@@ -33,9 +34,9 @@ const Register = () => {
     <div>
       <Header />
       <h2>Register</h2>
-      <TextField id="standard-basic" type="text" label="Name" onChange={e => setName(e.target.value)} value={name} /><br />
-      <TextField id="standard-basic" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
-      <TextField id="standard-basic" type="text" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
+      <TextField id="name" type="text" label="Name" onChange={e => setName(e.target.value)} value={name} /><br />
+      <TextField id="email" type="email" label="Email" onChange={e => setEmail(e.target.value)} value={email} /><br />
+      <TextField id="password" type="password" label="Password" onChange={e => setPassword(e.target.value)} value={password} /><br /><br />
       <Button variant="contained" color="primary" onClick={registerUser}>Register</Button>
     </div>
   );

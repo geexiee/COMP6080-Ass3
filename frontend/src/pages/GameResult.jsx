@@ -14,15 +14,25 @@ import Paper from '@material-ui/core/Paper';
 
 const GameResult = () => {
   const params = useParams();
-  console.log('hi');
-  // const [results, setResults] = React.useState([]);
-  // const [numPlayers, setNumPlayers] = React.useState(Number);
   const [numQuestions, setNumQuestions] = React.useState(Number);
+  const [numPlayers, setNumPlayers] = React.useState(Number);
   const [percentPerQuestion, setPercentPerQuestion] = React.useState(Array);
   const [averageTime, setAverageTime] = React.useState(Array);
-  const [topPlayers, setTopPlayers] = React.useState([]);
-  // let percentPerQuestion = [];
-  // let averageTime = [];
+  const [topPlayers, setTopPlayers] = React.useState(Array);
+
+  // Get results for a particular game session
+  const getResults = async () => {
+    const response = await axios.get(`http://localhost:5005/admin/session/${params.sid}/results`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).catch(e => console.log(e.response.data.error));
+    if (response !== undefined && response.status === 200) {
+      setNumPlayers(response.data.results.length);
+      analyseResults(response.data.results, response.data.results.length);
+    }
+  }
 
   // Get response time for a particular question
   const responseTime = (startTime, answerTime) => {
@@ -34,19 +44,13 @@ const GameResult = () => {
   // Analyse data to generate info for graphs
   const analyseResults = (results, numPlayers) => {
     if (results.length === 0) return;
-    console.log(results);
-    console.log(results[0].answers.length);
     setNumQuestions(results[0].answers.length);
-    console.log(numQuestions);
     const correctPerQuestion = new Array(results[0].answers.length).fill(0);
-    console.log(correctPerQuestion);
     const totalTimePerQuestion = new Array(results[0].answers.length).fill(0);
-    console.log(totalTimePerQuestion);
     const playerScores = {};
 
     results.forEach(user => {
       playerScores[user.name] = 0;
-      // setNumQuestions(user.answers.length);
       let i = 0;
       (user.answers).forEach(answer => {
         totalTimePerQuestion[i] += responseTime(answer.questionStartedAt, answer.answeredAt)
@@ -57,16 +61,10 @@ const GameResult = () => {
         i++;
       })
     })
-    console.log(correctPerQuestion);
-    console.log('%', correctPerQuestion.map((i) => i / numPlayers * 100));
     // Calculate percentage each question has been answered correctly
-    // percentPerQuestion = correctPerQuestion.map((i) => i / numPlayers * 100);
     setPercentPerQuestion(correctPerQuestion.map((i) => i / numPlayers * 100));
 
-    console.log(totalTimePerQuestion);
-    console.log('time', totalTimePerQuestion.map((i) => i / numPlayers));
     // Calculate average response time per question
-    // averageTime = totalTimePerQuestion.map((i) => i / numPlayers);
     setAverageTime(totalTimePerQuestion.map((i) => i / numPlayers));
 
     // Calculate top 5 results
@@ -78,7 +76,6 @@ const GameResult = () => {
         name: item[0],
         score: item[1],
       };
-      // console.log(topPlayers);
       return topPlayers;
     })
     setTopPlayers(topPlayers);
@@ -90,10 +87,6 @@ const GameResult = () => {
       y: {
         beginAtZero: true
       }
-    },
-    title: {
-      display: true,
-      text: 'Breakdown of correct question responses'
     },
     tooltips: {
       callbacks: {
@@ -110,10 +103,6 @@ const GameResult = () => {
       y: {
         beginAtZero: true
       }
-    },
-    title: {
-      display: true,
-      text: 'Average question response time'
     },
     tooltips: {
       callbacks: {
@@ -182,6 +171,13 @@ const GameResult = () => {
   }))(TableRow);
 
   const useStyles = makeStyles({
+    page: {
+      margin: '0 5%',
+      maxWidth: 1200,
+    },
+    title: {
+      textAlign: 'center',
+    },
     table: {
       minWidth: 350,
     },
@@ -189,23 +185,6 @@ const GameResult = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    // Get results for a particular game session
-    const getResults = async () => {
-      const response = await axios.get(`http://localhost:5005/admin/session/${params.sid}/results`, {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      }).catch(e => console.log(e.response.data.error));
-      console.log(response);
-      if (response !== undefined && response.status === 200) {
-        // setResults(response.data.results);
-        // console.log(results);
-        // setNumPlayers(response.data.results.length);
-        analyseResults(response.data.results, response.data.results.length);
-      }
-    }
-
     getResults();
   }, []);
 
@@ -213,29 +192,41 @@ const GameResult = () => {
     <div>
       <Header />
       <h2>Game {params.sid} Results</h2>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Rank</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Score</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {topPlayers.map((row, idx) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell>{idx + 1}</StyledTableCell>
-                <StyledTableCell>{row.name}</StyledTableCell>
-                <StyledTableCell>{row.score}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Table /><br />
-      <Bar data={barData} options={barOptions} /><br />
-      <Line data={lineData} options={lineOptions} />
+      {(numPlayers === 0 || numQuestions === 0) &&
+        <h4>No results to display</h4>}
+      {(numPlayers > 0 && numQuestions > 0) &&
+        (
+          <div>
+          <div className={classes.page}>
+            <h4 className={classes.title}>Player Leaderboard</h4>
+            <TableContainer component={Paper}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Rank</StyledTableCell>
+                    <StyledTableCell>Name</StyledTableCell>
+                    <StyledTableCell>Score</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {topPlayers.map((row, idx) => (
+                    <StyledTableRow key={row.name}>
+                      <StyledTableCell>{idx + 1}</StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.score}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Table /><br />
+            <h4 className={classes.title}>Breakdown of correct question responses</h4>
+            <Bar data={barData} options={barOptions} /><br />
+            <h4 className={classes.title}>Average question response time</h4>
+            <Line data={lineData} options={lineOptions} />
+          </div>
+          </div>
+        )}
     </div>
   );
 }

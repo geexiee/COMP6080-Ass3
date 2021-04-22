@@ -229,13 +229,13 @@ const EditQuestion = () => {
     }
   }
 
-  if (goBack) {
-    return <Redirect to={generatePath('/edit/:gid', { gid: params.gid })} />
-  }
-
   useEffect(() => {
     getQuestion(params.gid, params.qid);
   }, []);
+
+  if (goBack) {
+    return <Redirect to={generatePath('/edit/:gid', { gid: params.gid })} />
+  }
 
   // TODO: add a way for the user to mark correct answers, can indicate correct through either another list of correct answers or adding a field to answerobject
   return (

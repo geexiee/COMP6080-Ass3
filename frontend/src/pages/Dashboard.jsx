@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header.jsx';
-// import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import GameTile from '../components/GameTile.jsx'
 import Button from '@material-ui/core/Button';
@@ -25,11 +24,6 @@ const Dashboard = () => {
   useEffect(() => {
     GetQuizzes();
   }, []);
-
-  // const [goNewGame, setGoNewGame] = React.useState(false);
-  // if (goNewGame) {
-  //   return <Redirect to="/new" />;
-  // }
 
   return (
     <div>
