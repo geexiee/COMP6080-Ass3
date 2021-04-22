@@ -5,3 +5,5 @@ reachable from the navigation bar - the Dashboard and Join Game.
 storyboard flow which was produced from a mockup.
 - Visual hierarchy implemented in the start game -> Game code is the largest
 text within the popup modal, with much space around it.
+- While players are playing the game, buttons change colour to 
+indicate whether or not they have been selected

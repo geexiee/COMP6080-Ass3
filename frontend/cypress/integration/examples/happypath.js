@@ -4,11 +4,13 @@ context('Happy path', () => {
     const name = 'John Smith';
     const email = 'johnsmith@example.com';
     const password = 'password';
-    
+    const quizName = 'Test Quiz';
+
     // navigate to register page
     cy.get('a[href="/register"')
       .click()
 
+    // input registration details
     cy.get('input[name=name]')
       .focus()
       .type(name);   
@@ -21,14 +23,18 @@ context('Happy path', () => {
       .focus()
       .type(password);
 
+    cy.get('input[name=passwordConfirm]')
+      .focus()
+      .type(password);
+
+    // register successfully
     cy.get('button[name=submitRegistrationButton]')
       .click();
 
+    // verify that we are on the dashboard
     expect(cy.location('pathname').should('eq', '/dashboard'));
 
     // create new game
-    const quizName = 'Test Quiz';
-    
     cy.get('button[name=createNewGameButton]')
       .click();
 
@@ -36,13 +42,11 @@ context('Happy path', () => {
       .focus()
       .type(quizName);
 
+    // submit new game
     cy.get('button[name=createButton')
       .click();   
     
-    // navigate back to dashboard
-    cy.get('a[href="/dashboard"')
-      .click()
-    
+    // verify that we were automatically redirected to the dashboard
     expect(cy.location('pathname').should('eq', '/dashboard'));
 
     // start the newly created game

@@ -16,6 +16,6 @@ describe('Header testing', () => {
 
   it('has a link labelled "Home"', () => {
     const header = shallow(<Header />);
-    expect(header.find('#homeLink').text()).toEqual('Home');
+    expect(header.find('#homeLink').text()).toEqual('Big Brain');
   });
 });
